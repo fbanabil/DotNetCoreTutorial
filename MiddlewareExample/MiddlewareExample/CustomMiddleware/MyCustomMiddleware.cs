@@ -1,4 +1,6 @@
-﻿namespace MiddlewareExample.CustomMiddleware
+﻿using System.Runtime.CompilerServices;
+
+namespace MiddlewareExample.CustomMiddleware
 {
     public class MyCustomMiddleware : IMiddleware
     {
@@ -8,6 +10,13 @@
 
             await next(context); // Call the next middleware in the pipeline 
         }
-    
+    }
+
+    public static class MyCustomMiddlewareExtensions
+    {
+        public static IApplicationBuilder UseMyCustomMiddleware(this IApplicationBuilder app)
+        {
+            return app.UseMiddleware<MyCustomMiddleware>();
+        }
     }
 }
