@@ -176,7 +176,7 @@ app.UseEndpoints(endpoints =>
         await context.Response.WriteAsync($"Sales Report for {month}-{year}\n");
     });
 
-    // Use of custom constraint using matching
+    // Use of custom constraint using matching : No benefit if it used one or very low number of time
     endpoints.Map("sales-report-check/{year:int:min(1900)}/" +
         "{month:months}", async context =>
         {
@@ -184,6 +184,10 @@ app.UseEndpoints(endpoints =>
             string month = Convert.ToString(context.Request.RouteValues["month"])!;
             await context.Response.WriteAsync($"Sales Report for {month}-{year}\n");
         });
+
+
+    // Routing Precedence : The more specific route should be defined first
+
 
 });
 
