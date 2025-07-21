@@ -81,5 +81,18 @@ namespace ControllersExample.Controllers
             //or
             return File(bytes, "image/jpeg");
         }
+
+
+        // IActionResult : Parent class for all results
+        [Route("file-download4")]
+        public IActionResult FileDownloaded4()
+        {
+            //return new PhysicalFileResult(@"C:\Users\ASUS\OneDrive\Desktop\Tour.jpg", "image/jpeg");
+            byte[] bytes = System.IO.File.ReadAllBytes(@"C:\Users\ASUS\OneDrive\Desktop\Tour.jpg");
+
+            //return new FileContentResult(bytes, "image/jpeg");
+            //or
+            return File(bytes, "image/jpeg");
+        }
     }
 }
