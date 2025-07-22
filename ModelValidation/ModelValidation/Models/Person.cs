@@ -34,7 +34,7 @@ namespace ModelValidation.Models
         public string? ConfirmPassword { get; set; }
 
 
-        [Range(0,999,ErrorMessage ="{0} should be between {1} and {2}")]
+        [Range(0,999.99,ErrorMessage ="{0} should be between {1} and {2}")]
         [Display(Name = "Price")]
         public double? price { get; set; }
 

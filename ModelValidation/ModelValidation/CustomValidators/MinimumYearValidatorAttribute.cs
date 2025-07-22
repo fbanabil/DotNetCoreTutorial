@@ -5,11 +5,8 @@ namespace ModelValidation.CustomValidators
     public class MinimumYearValidatorAttribute : ValidationAttribute
     {
         public int MinumiumYear { get; set; } = 2000; // Default minimum year
-
-        public MinimumYearValidatorAttribute()
-        {
-            
-        }
+        public string DefaultErrorMessage { get; set; } = "Year before or equal to {0} is a must";
+        public MinimumYearValidatorAttribute(){}
 
         public MinimumYearValidatorAttribute(int minimumYear)
         {
@@ -29,7 +26,7 @@ namespace ModelValidation.CustomValidators
                     //return new ValidationResult(ErrorMessage);
 
                     // or for {} to work
-                    return new ValidationResult(string.Format(ErrorMessage, MinumiumYear));
+                    return new ValidationResult(string.Format(ErrorMessage ?? DefaultErrorMessage, MinumiumYear));
                 }
                 else
                 {
