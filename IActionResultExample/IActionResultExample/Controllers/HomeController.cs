@@ -285,6 +285,7 @@ namespace IActionResultExample.Controllers
         }
 
         // Content-Type: multipart/form-data
+        // For images or files
         [Route("BookFormData/{bookid?}/{IsLoggedIn?}")]
         public IActionResult BookFormData([FromRoute] int? bookid, [FromQuery] bool? IsLoggedIn,
                 Book book) // Can use fromquery and from route //model can be from qury string
