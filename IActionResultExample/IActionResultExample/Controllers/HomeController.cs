@@ -240,5 +240,90 @@ namespace IActionResultExample.Controllers
 
             return Content($"Book Id :{bookid}, Book: {book}", "text/html");
         }
+
+
+        // Form-urlencoded from postman
+        // Formdata has higher priority than query string and route parameter
+        [Route("BookForm/{bookid?}/{IsLoggedIn?}")]
+        public IActionResult BookForm([FromRoute] int? bookid, [FromQuery]bool? IsLoggedIn,
+                Book book) // Can use fromquery and from route //model can be from qury string
+        {
+            // Use of model binding
+            if (bookid.HasValue == false)
+            {
+                //Response.StatusCode = 400; // Bad Request
+                //return Content("No book ID provided.");
+
+                // Shortcuts
+                return BadRequest("No book ID Provided");
+            }
+
+            // Book ID should be betwwen 1 to 1000
+            //_logger.LogInformation($"Book ID: {bookId}");
+            if (bookid < 1 || bookid > 1000)
+            {
+                //Response.StatusCode = 404; // Not Found
+                //return Content("Book ID must be between 1 and 1000.");
+
+                // Shortcuts
+                return NotFound("Book ID must be between 1 and 1000.");
+            }
+
+            // Checking IsLoggedIn
+
+            if (IsLoggedIn.HasValue == false || IsLoggedIn.Value == false)
+            {
+                //Response.StatusCode = 401; // Unauthorized
+                //return Content("You must be logged in to access this resource.");
+
+                // Shortcuts
+                return Unauthorized("You must be logged in to access this resource.");
+                //return StatusCode(401);
+            }
+
+            return Content($"Book Id :{bookid}, Book: {book}", "text/html");
+        }
+
+        // Content-Type: multipart/form-data
+        [Route("BookFormData/{bookid?}/{IsLoggedIn?}")]
+        public IActionResult BookFormData([FromRoute] int? bookid, [FromQuery] bool? IsLoggedIn,
+                Book book) // Can use fromquery and from route //model can be from qury string
+        {
+            // Use of model binding
+            if (bookid.HasValue == false)
+            {
+                //Response.StatusCode = 400; // Bad Request
+                //return Content("No book ID provided.");
+
+                // Shortcuts
+                return BadRequest("No book ID Provided");
+            }
+
+            // Book ID should be betwwen 1 to 1000
+            //_logger.LogInformation($"Book ID: {bookId}");
+            if (bookid < 1 || bookid > 1000)
+            {
+                //Response.StatusCode = 404; // Not Found
+                //return Content("Book ID must be between 1 and 1000.");
+
+                // Shortcuts
+                return NotFound("Book ID must be between 1 and 1000.");
+            }
+
+            // Checking IsLoggedIn
+
+            if (IsLoggedIn.HasValue == false || IsLoggedIn.Value == false)
+            {
+                //Response.StatusCode = 401; // Unauthorized
+                //return Content("You must be logged in to access this resource.");
+
+                // Shortcuts
+                return Unauthorized("You must be logged in to access this resource.");
+                //return StatusCode(401);
+            }
+
+            return Content($"Book Id :{bookid}, Book: {book}", "text/html");
+        }
+
     }
 }

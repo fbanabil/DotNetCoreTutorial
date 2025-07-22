@@ -4,9 +4,10 @@ namespace IActionResultExample.Models
 {
     public class Book
     {
-        [FromRoute]
+        //[FromRoute]
         public int? BookId { get; set; }
-        [FromQuery]
+        
+        //[FromQuery]
         public string? Author { get; set; }
 
         public override string ToString()
