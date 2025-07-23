@@ -4,12 +4,12 @@ using System.ComponentModel.DataAnnotations;
 
 namespace ModelValidation.Models
 {
-    public class Person
+    public class Person : IValidatableObject // Implementing IValidatableObject for custom validation logic
     {
         [Required(ErrorMessage ="{0} is Needed")] // With argument {0}=PersonName
         [Display(Name = "Person Name")]            // Display attribute to customize the label
         [StringLength(20,MinimumLength =5,ErrorMessage = "{0} must be between {2} and {1} characters long.")]
-        [RegularExpression("^[A-Za-z .]+$",ErrorMessage ="{0} should contain alphabte space and dot")]
+        [RegularExpression("^[A-Za-z .]*$",ErrorMessage ="{0} should contain alphabte space and dot")]
         public string? PersonName { get; set; }
 
 
@@ -43,9 +43,41 @@ namespace ModelValidation.Models
         public DateTime? DateOfBirth { get; set; }
 
 
+
+        public DateTime? FromDate { get; set; }
+
+
+        [DateRangeValidator("FromDate",ErrorMessage="Fromdate should be older or equal to ToDate")]
+        public DateTime? ToDate { get; set; }
+
+
+
+
+        public int? PresentAge { get; set; }
+
+
+        // Override ToString() method to display the object in a readable format
         public override string ToString()
         {
-            return $"Name: {PersonName}, Email: {Email}, Phone: {Phone}, Password: {Password}, Confirm_Password: {ConfirmPassword}, Price: {price}";
+            return $"Name: {PersonName}, Email: {Email}, Phone: {Phone}, Password: {Password}, Confirm_Password: {ConfirmPassword}, Price: {price}, DateOfBirth: {DateOfBirth}, FromDate: {FromDate}, ToDate: {ToDate}";
+        }
+
+
+
+        // Implementing IValidatableObject for custom validation logic
+        // Only age or date of birth is required, not both
+        public IEnumerable<ValidationResult> Validate(ValidationContext validationContext) // It executes after all the other validations are done
+        {
+            if (PresentAge.HasValue == false && DateOfBirth.HasValue == false)
+            {
+                // Yield allows returning multiple ValidationResult instances
+                yield return new ValidationResult("Either of date  of birth ore age should be supplied", new[] {nameof(PresentAge) });
+            }
+            // yield combines return and make it ienumerable
+
+            //if(...){
+            // yield return new ValidationResult("Error message", new[] { "PropertyName" });
+            //}
         }
     }
 }
