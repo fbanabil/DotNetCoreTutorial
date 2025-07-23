@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
+﻿using Microsoft.AspNetCore.Mvc.ModelBinding;
+using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 using ModelValidation.CustomValidators;
 using System.ComponentModel.DataAnnotations;
 
@@ -40,6 +41,8 @@ namespace ModelValidation.Models
 
         //[MinimumYearValidator(ErrorMessage ="Checking Error")] // Custom Validator without argument
         [MinimumYearValidator(2000, ErrorMessage = "Date of Birth should be before or equal {0}")]
+
+        //[BindNever] // This attribute is used to skip Model Binding for this property
         public DateTime? DateOfBirth { get; set; }
 
 
@@ -56,10 +59,24 @@ namespace ModelValidation.Models
         public int? PresentAge { get; set; }
 
 
+
+        public List<string?> Tags { get; set; }  = new List<string?>(); 
+
+
         // Override ToString() method to display the object in a readable format
         public override string ToString()
         {
-            return $"Name: {PersonName}, Email: {Email}, Phone: {Phone}, Password: {Password}, Confirm_Password: {ConfirmPassword}, Price: {price}, DateOfBirth: {DateOfBirth}, FromDate: {FromDate}, ToDate: {ToDate}";
+            string model= $"Name: {PersonName}, Email: {Email}, Phone: {Phone}, Password: {Password}, Confirm_Password: {ConfirmPassword}, Price: {price}, DateOfBirth: {DateOfBirth}, FromDate: {FromDate}, ToDate: {ToDate}";
+            //add Tags to the model string
+            if (Tags != null && Tags.Count > 0)
+            {
+                model += $", Tags: {string.Join(", ", Tags)}";
+            }
+            else
+            {
+                model += ", Tags: None";
+            }
+            return model;
         }
 
 
