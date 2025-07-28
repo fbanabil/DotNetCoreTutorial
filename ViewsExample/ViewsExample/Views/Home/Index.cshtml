@@ -1,5 +1,5 @@
-﻿@using ViewsExample.Models
-
+﻿@* @using ViewsExample.Models *@
+@model IEnumerable<Person> 
 @{
     string? title = ViewData["title"] as string;
     // Person person = new Person
@@ -32,7 +32,10 @@
     //     }
     // };
 
-    List<Person>? people = ViewData["people"] as List<Person>;
+    //List<Person>? people = ViewData["people"] as List<Person>;
+    List<Person>? people = ViewBag.people;
+
+    // If no key then viewbag returns null
 }
 
 @{
@@ -67,12 +70,14 @@
     <head>
         <title>@title</title>
         <meta charset="utf-8">
+    <link rel="stylesheet" href="~/StyleSheet.css">
      </head>
 <body>
+    <div class="page-content">
     
     @* @Html.Raw(@alertMessage) *@
 
-    <h1>Welcome</h1>
+    <h1>Persons</h1>
     <h1>@name @GetGreeting()</h1>
     @* <h2>Hello @person.Name</h2>
     @if (person.DateOfBirth.HasValue)
@@ -100,11 +105,31 @@
     } *@
 
 
-    @foreach(Person person in people)
+    @foreach(Person person in Model)
     {
-        <div>
-            @person.Name
-            <span>, </span>
+        <div class="box float-left w-50">
+
+            
+            <h3>@person.Name</h3>
+
+            <table class="table w-100">
+                <tbody>
+                    <tr>
+                        <td>Gender :</td>
+                        <td>@person.PersonGender</td>
+                    </tr>
+                        <tr>
+                            <td>Date of Birth :</td>
+                            <td>@person.DateOfBirth?.ToString("MM/dd/yyyy")</td>
+                        </tr>
+                </tbody>
+            </table>
+           <div>
+                    <a href="/person-details/@person.Name">Details</a>
+           </div>
+
+            
+            @* <span>, </span>
             <span>@person.PersonGender</span>
             @if(person.DateOfBirth.HasValue)
             {
@@ -115,12 +140,15 @@
             else
             {
                 <span>, Age not provided</span>
-            }
+            } *@
         </div>
     }
+        <div>
+            <a href="/person-with-product">Person With Product</a>
+        </div>
     <br>
 
-    @for(int i= 0; i < people.Count; i++)
+    @* @for(int i= 0; i < people.Count; i++)
     {
         @:People Details:
         <text>Hello To You All</text>
@@ -131,9 +159,9 @@
             <span>@people[i].PersonGender</span>
             @if(people[i].DateOfBirth.HasValue)
             {
-                @* double age = Math.Round((DateTime.Now - people[i].DateOfBirth).Value.TotalDays / 365.25);
+                double age = Math.Round((DateTime.Now - people[i].DateOfBirth).Value.TotalDays / 365.25);
                 <span>, </span>
-                <span>@age years old</span>*@
+                <span>@age years old</span>
                 <span>, </span> 
                 <span>@GetAge(people[i].DateOfBirth) years old</span>
             }
@@ -142,8 +170,8 @@
                 <span>, Age not provided</span>
             }
         </div>
-    }
+    } *@
 
-
+    </div>
 </body>
 </html>

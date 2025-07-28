@@ -1,0 +1,56 @@
+﻿@* @using ViewsExample.Models *@
+@model PersonAndProductWrapperModel
+
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    @* <meta name="viewport" content="width=device-width, initial-scale=1.0" /> *@
+    <link href="~/StyleSheet.css" rel="stylesheet" />
+    <title>Details</title>
+</head>
+<body>
+    <div class="page-content">
+
+        <h1>Person and Product</h1>
+
+        <div class="box w-50">
+            <h3>Person</h3>
+            <table class="table w-100">
+                <tbody>
+                    <tr>
+                        <td>Person Name</td>
+                        <td>@Model.PersonData?.Name</td>
+                    </tr>
+                    <tr>
+                        <td>Person Gender</td>
+                        <td>@Model.PersonData?.PersonGender</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="box w-50">
+            <h3>Person</h3>
+            <table class="table w-100">
+                <tbody>
+                    <tr>
+                        <td>Product Id</td>
+                        <td>@Model.ProductData?.ProductId</td>
+                    </tr>
+                    <tr>
+                        <td>Product Name</td>
+                        <td>@Model.ProductData?.ProductName</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+
+        @* <a href="/home">Back to Persons</a> *@
+    </div>
+</body>
+
+
+</html>
