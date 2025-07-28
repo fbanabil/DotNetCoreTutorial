@@ -1,0 +1,149 @@
+﻿@using ViewsExample.Models
+
+@{
+    string? title = ViewData["title"] as string;
+    // Person person = new Person
+    // {
+    //     Name = "Fba Nabil",
+    //     DateOfBirth = Convert.ToDateTime("2002-10-04"),
+    //     DateOfBirth = null,
+    //     PersonGender=Gender.Male
+    // };
+
+    // List<Person> people = new List<Person>
+    // {
+    //     new Person
+    //     {
+    //         Name = "Fba Nabil",
+    //         DateOfBirth = Convert.ToDateTime("2002-10-04"),
+    //         PersonGender=Gender.Male
+    //     },
+    //     new Person
+    //     {
+    //         Name = "Denesh Barua",
+    //         DateOfBirth = Convert.ToDateTime("2002-06-19"),
+    //         PersonGender=Gender.Other
+    //     }
+    //     ,new Person
+    //     {
+    //         Name = "Atfan Bin Nur",
+    //         DateOfBirth = Convert.ToDateTime("2000-03-24"),
+    //         PersonGender=Gender.Male
+    //     }
+    // };
+
+    List<Person>? people = ViewData["people"] as List<Person>;
+}
+
+@{
+    double? GetAge(DateTime? dateOfBirth)
+    {
+        if (dateOfBirth.HasValue)
+        {
+            return Math.Round((DateTime.Now - dateOfBirth.Value).TotalDays / 365.25, 2);
+        }
+        return null;
+    };
+}
+
+@functions{
+    // methods, Fields, Property
+    public string GetGreeting()
+    {
+        return "Class!";
+    }
+
+    string name { get; set; } = "to ";
+}
+
+@{
+
+    string alertMessage = $"<script>alert('{people.Count} people found')</script>";
+}
+
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>@title</title>
+        <meta charset="utf-8">
+     </head>
+<body>
+    
+    @* @Html.Raw(@alertMessage) *@
+
+    <h1>Welcome</h1>
+    <h1>@name @GetGreeting()</h1>
+    @* <h2>Hello @person.Name</h2>
+    @if (person.DateOfBirth.HasValue)
+    {
+        double age = Math.Round((DateTime.Now - person.DateOfBirth).Value.TotalDays/ 365.25);
+        <h3>@age years old</h3>
+    }
+    else
+    {
+        <h3>Age not provided</h3>
+    } *@
+
+
+    @* @switch (person.PersonGender)
+    {
+        case Gender.Male:
+            <p>November 19 is International Men's Day</p>
+            break;     
+        case Gender.Female:
+            <p>March 8 is International</p>
+            break;
+        case Gender.Other:
+            <p>🗑️🗑️🗑️🗑️🗑️🗑️🗑️🗑️🗑️</p>
+            break;
+    } *@
+
+
+    @foreach(Person person in people)
+    {
+        <div>
+            @person.Name
+            <span>, </span>
+            <span>@person.PersonGender</span>
+            @if(person.DateOfBirth.HasValue)
+            {
+                double age = Math.Round((DateTime.Now - person.DateOfBirth).Value.TotalDays / 365.25);
+                <span>, </span>
+                <span>@age years old</span>
+            }
+            else
+            {
+                <span>, Age not provided</span>
+            }
+        </div>
+    }
+    <br>
+
+    @for(int i= 0; i < people.Count; i++)
+    {
+        @:People Details:
+        <text>Hello To You All</text>
+        
+        <div>
+            @people[i].Name
+            <span>, </span>
+            <span>@people[i].PersonGender</span>
+            @if(people[i].DateOfBirth.HasValue)
+            {
+                @* double age = Math.Round((DateTime.Now - people[i].DateOfBirth).Value.TotalDays / 365.25);
+                <span>, </span>
+                <span>@age years old</span>*@
+                <span>, </span> 
+                <span>@GetAge(people[i].DateOfBirth) years old</span>
+            }
+            else
+            {
+                <span>, Age not provided</span>
+            }
+        </div>
+    }
+
+
+</body>
+</html>
