@@ -1,0 +1,44 @@
+﻿
+
+<h1>Home</h1>
+
+@{
+    ListModel model = new ListModel
+    {
+        ListTitle = "Cities",
+        Cities = new List<string>
+        {
+            "Dhaka",
+            "Rome",
+            "Rajshahi",
+            "Chittagong",
+            "Phoenix"
+        }
+    };
+}
+
+
+
+<div class="box">
+    <partial name="_ListPartialView" model="model"></partial>
+</div>
+
+
+
+@{
+    var myViewData = new ViewDataDictionary(ViewData);
+
+    myViewData["ListTitle"] = "Cities";
+    myViewData["Cities"] = new List<string>
+    {
+    "Dhaka",
+    "Rome",
+    "Rajshahi",
+    "Chittagong",
+    "Phoenix"
+    };
+}
+<div class="box">
+    @*Can supply specific viewdata*@
+    @*<partial name="_ListPartialView" view-data="myViewData"></partial>*@
+</div>

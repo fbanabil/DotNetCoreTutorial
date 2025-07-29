@@ -1,0 +1,35 @@
+﻿@{
+    ListModel model = new ListModel
+    {
+        ListTitle = "Programming Languages",
+        Cities = new List<string>
+        {
+            "Java",
+            "C#",
+            "Python"
+        }
+    };
+}
+
+
+
+<h1>About</h1>
+
+<h2>About comany</h2>
+
+<p>
+    The Lorem ipum filling text is used by graphic designers, programmers and printers with the aim of occupying the spaces of a website, an advertising product or an editorial production whose final text is not yet ready.
+
+    This expedient serves to get an idea of the finished product that will soon be printed or disseminated via digital channels.
+
+
+    In order to have a result that is more in keeping with the final result, the graphic designers, designers or typographers report the Lorem ipsum text in respect of two fundamental aspects, namely readability and editorial requirements.
+</p>
+
+@* <partial name="_ListPartialView"/> *@
+
+@* @await Html.PartialAsync("_ListPartialView") *@
+
+@{
+    await Html.RenderPartialAsync("_ListPartialView", model);
+}
