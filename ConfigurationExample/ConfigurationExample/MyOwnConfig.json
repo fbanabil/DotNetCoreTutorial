@@ -1,0 +1,6 @@
+{
+  "weatherapi": {
+    "ClientId": "YourClientId From My own Config",
+    "ClientSecret": "YourClientSecret from My own config"
+  }
+}
