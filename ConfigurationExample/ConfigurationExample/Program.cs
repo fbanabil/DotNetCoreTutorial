@@ -5,7 +5,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 builder.Services.Configure<WeatherApiOptions>(builder.Configuration.GetSection("weatherapi"));
 
-// Load my own config
+// Load my own config : Highet Priority
 builder.Host.ConfigureAppConfiguration((hostingContext, config) =>
 {
     config.AddJsonFile("MyOwnConfig.json", optional: true, reloadOnChange: true);
