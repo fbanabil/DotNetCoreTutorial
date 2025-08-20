@@ -21,5 +21,14 @@ namespace ServiceContracts
         /// </summary>
         /// <returns>All countries from Country list as List</returns>
         public Task<List<CountryResponse>?> GetAllCountries();
+
+
+        /// <summary>
+        /// Return Country Object based on CountryID
+        /// </summary>
+        /// <param name="countryID"></param>
+        /// <returns>Counry response matching to that CountryID</returns>
+        public Task<CountryResponse?> GetCountryByCountryID(Guid? countryID);
+
     }
 }

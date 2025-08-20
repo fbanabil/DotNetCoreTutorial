@@ -48,5 +48,19 @@ namespace Services
             return countryResponses;
         }
 
+        public async Task<CountryResponse?> GetCountryByCountryID(Guid? countryID)
+        {
+            if(countryID == null)
+            {
+                throw new ArgumentNullException("CountryID can't be null");
+            }
+
+            Country? country=_countries.FirstOrDefault(temp=> temp.CountryID==countryID);
+            if (country == null)
+            {
+                return null;
+            }
+            else return country.ToCountryResponse();
+        }
     }
 }

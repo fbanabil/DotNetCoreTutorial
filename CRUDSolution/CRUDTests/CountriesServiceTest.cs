@@ -27,7 +27,7 @@ namespace CRUDTests
             CountryAddRequest? countryAddRequest = null;
 
             //Assert
-            await Assert.ThrowsAsync<ArgumentNullException>(()=>
+            await Assert.ThrowsAsync<ArgumentNullException>(() =>
             {
                 // Act
                 return _countriesService.AddCountryAsync(countryAddRequest);
@@ -51,7 +51,7 @@ namespace CRUDTests
             await Assert.ThrowsAsync<ArgumentException>(() =>
             {
                 // Act
-                 return _countriesService.AddCountryAsync(countryAddRequest);
+                return _countriesService.AddCountryAsync(countryAddRequest);
             });
         }
 
@@ -94,13 +94,13 @@ namespace CRUDTests
             };
 
             // Act
-            CountryResponse? countryResponse =await _countriesService.AddCountryAsync(countryAddRequest);
+            CountryResponse? countryResponse = await _countriesService.AddCountryAsync(countryAddRequest);
 
             List<CountryResponse>? allCountries = await _countriesService.GetAllCountries();
             // Assert
 
             Assert.True(countryResponse.CountryID != Guid.Empty, "CountryID should not be empty");
-            Assert.Contains(countryResponse,allCountries);
+            Assert.Contains(countryResponse, allCountries);
         }
         #endregion
 
@@ -140,13 +140,48 @@ namespace CRUDTests
             List<CountryResponse>? countries = await _countriesService.GetAllCountries();
 
             // Assert
-            foreach(CountryResponse expected_country in expectedCountries)
+            foreach (CountryResponse expected_country in expectedCountries)
             {
-                Assert.Contains(expected_country,countries);
+                Assert.Contains(expected_country, countries);
             }
 
         }
 
+        #endregion
+
+        #region GetCountryByCountryID Tests
+
+        // Check if CountryID parameter is null, it should throw ArgumentNullException
+        [Fact]
+        public void GetCountryByCountryID_NullCountryID()
+        {
+            // Arrange
+            Guid? countryID = null;
+            // Assert
+            Assert.ThrowsAsync<ArgumentNullException>(() =>
+            {
+                // Act
+                return _countriesService.GetCountryByCountryID(countryID.Value);
+            });
+        }
+
+
+
+        [Fact]
+        public async Task GetCountryByCountryID_ValidCountryID()
+        {
+            // Arrange
+            CountryAddRequest countryAddRequest = new CountryAddRequest
+            {
+                CountryName = "TestCountry"
+            };
+            // Act
+            CountryResponse? addedCountry = await _countriesService.AddCountryAsync(countryAddRequest);
+            CountryResponse? countryResponse = await _countriesService.GetCountryByCountryID(addedCountry.CountryID);
+
+            // Assert
+            Assert.Equal(addedCountry, countryResponse);
+        }
         #endregion
     }
 }
