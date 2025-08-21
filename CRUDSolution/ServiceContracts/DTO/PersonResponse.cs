@@ -48,6 +48,21 @@ namespace ServiceContracts.DTO
                    $"Age: {Age} ";
 
         }
+
+        public PersonUpdateRequest ToPersonUpdateRequest()
+        {
+            return new PersonUpdateRequest()
+            {
+                PersonId = this.PersonId,
+                PersonName = this.PersonName,
+                Email = this.Email,
+                DateOfBirth = this.DateOfBirth,
+                RecieveNewsLetters = this.RecieveNewsLetters,
+                Gender = (GenderOptions)Enum.Parse(typeof(GenderOptions), Gender, true),
+                CountryID = this.CountryID,
+                Address = this.Address
+            };
+        }
     }
 
     public static class PersonExtension

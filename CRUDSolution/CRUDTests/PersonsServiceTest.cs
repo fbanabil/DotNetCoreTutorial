@@ -188,7 +188,7 @@ namespace CRUDTests
             }
 
             _testOutputHelper.WriteLine("Actual Output : ");
-            foreach (var person in personResponses) 
+            foreach (var person in personResponses)
             {
                 _testOutputHelper.WriteLine(person.ToString());
             }
@@ -244,7 +244,7 @@ namespace CRUDTests
                 RecieveNewsLetters = true
             };
             PersonResponse? personResponse2 = await _personService.AddPerson(personAddRequest);
-            
+
 
             countryAddRequest = new CountryAddRequest()
             {
@@ -282,7 +282,7 @@ namespace CRUDTests
 
 
             Assert.Equal(3, personResponses.Count);
-            
+
             foreach (var person in actual)
             {
                 Assert.Contains(person, personResponses);
@@ -370,5 +370,247 @@ namespace CRUDTests
 
         #endregion
 
-    }
+
+        #region GetSortedPersons
+
+        [Fact]
+        public async Task GetSortedFunction()
+        {
+            CountryAddRequest countryAddRequest = new CountryAddRequest()
+            {
+                CountryName = "TestCountry"
+            };
+            CountryResponse? countryResponse = await _countriesService.AddCountryAsync(countryAddRequest);
+            PersonAddRequest? personAddRequest = new PersonAddRequest()
+            {
+                PersonName = "TestPerson",
+                Email = "Test@gmail.com",
+                Address = "TestAddress",
+                CountryID = countryResponse.CountryID,
+                DateOfBirth = DateTime.Parse("2000-04-11"),
+                Gender = GenderOptions.Male,
+                RecieveNewsLetters = true
+            };
+            PersonResponse? personResponse = await _personService.AddPerson(personAddRequest);
+
+
+            countryAddRequest = new CountryAddRequest()
+            {
+                CountryName = "TestCountry2"
+            };
+            countryResponse = await _countriesService.AddCountryAsync(countryAddRequest);
+            personAddRequest = new PersonAddRequest()
+            {
+                PersonName = "TestPerson2",
+                Email = "x@gmail.com",
+                Address = "TestAddress2",
+                CountryID = countryResponse.CountryID,
+                DateOfBirth = DateTime.Parse("2000-04-11"),
+                Gender = GenderOptions.Male,
+                RecieveNewsLetters = true
+            };
+            PersonResponse? personResponse2 = await _personService.AddPerson(personAddRequest);
+
+
+            countryAddRequest = new CountryAddRequest()
+            {
+                CountryName = "TestCountry3"
+            };
+            countryResponse = await _countriesService.AddCountryAsync(countryAddRequest);
+            personAddRequest = new PersonAddRequest()
+            {
+                PersonName = "ThirdPerson",
+                Email = "Y@gmail.com",
+                Address = "TestAddress3",
+                CountryID = countryResponse.CountryID,
+                DateOfBirth = DateTime.Parse("2000-04-11"),
+                Gender = GenderOptions.Male,
+                RecieveNewsLetters = true
+            };
+            PersonResponse? personResponse3 = await _personService.AddPerson(personAddRequest);
+
+
+            List<PersonResponse> actual = new List<PersonResponse>() { personResponse, personResponse2, personResponse3 };
+
+
+            List<PersonResponse> personResponses = await _personService.GetSortedPersons(actual, nameof(Person.PersonName), SortOrderOptions.DESC);
+
+
+            actual = actual.OrderByDescending(p => p.PersonName).ToList();
+
+            _testOutputHelper.WriteLine("Expected Output : ");
+            foreach (var person in actual)
+            {
+                _testOutputHelper.WriteLine(person.ToString());
+            }
+            _testOutputHelper.WriteLine("Actual Output : ");
+            foreach (var person in personResponses)
+            {
+                _testOutputHelper.WriteLine(person.ToString());
+            }
+            Assert.Equal(actual.Count, personResponses.Count);
+            for (int i = 0; i < actual.Count; i++)
+            {
+                Assert.Equal(actual[i], personResponses[i]);
+            }
+        }
+
+
+        #endregion
+
+
+        #region UpdatePerson
+
+        [Fact]
+
+        public async Task UpdatePerson_NullPerson()
+        {
+            PersonUpdateRequest? personUpdateRequest = null;
+            await Assert.ThrowsAsync<ArgumentNullException>(async () =>
+            {
+                await _personService.UpdatePerson(personUpdateRequest);
+            });
+        }
+
+        [Fact]
+        public async Task UpdatePerson_InvalidPersonId()
+        {
+            PersonUpdateRequest? personUpdateRequest = new PersonUpdateRequest()
+            {
+                PersonId = Guid.NewGuid()
+            };
+
+            await Assert.ThrowsAsync<ArgumentException>(async () =>
+            {
+                await _personService.UpdatePerson(personUpdateRequest);
+            });
+        }
+
+        [Fact]
+        // Person Name null
+        public async Task UpdatePerson_NullPersonName()
+        {
+            CountryAddRequest countryAddRequest = new CountryAddRequest()
+            {
+                CountryName = "TestCountry"
+            };
+            CountryResponse? countryResponse = await _countriesService.AddCountryAsync(countryAddRequest);
+
+            PersonAddRequest? personAddRequest = new PersonAddRequest()
+            {
+                PersonName = "TestPerson",
+                Email = "Test@gmail.com",
+                Address = "TestAddress",
+                CountryID = countryResponse?.CountryID,
+                DateOfBirth = DateTime.Parse("2000-04-11"),
+                Gender = GenderOptions.Male,
+                RecieveNewsLetters = true
+            };
+
+            PersonResponse? personResponse = await _personService.AddPerson(personAddRequest);
+
+            PersonUpdateRequest? personUpdateRequest = personResponse.ToPersonUpdateRequest();
+            personUpdateRequest.PersonName = null;
+
+            await Assert.ThrowsAsync<ArgumentException>(async () =>
+            {
+                await _personService.UpdatePerson(personUpdateRequest);
+            });
+        }
+
+
+
+        [Fact]
+        public async Task UpdatePerson_ProperUpdate()
+        {
+            CountryAddRequest countryAddRequest = new CountryAddRequest()
+            {
+                CountryName = "TestCountry"
+            };
+            CountryResponse? countryResponse = await _countriesService.AddCountryAsync(countryAddRequest);
+
+            PersonAddRequest? personAddRequest = new PersonAddRequest()
+            {
+                PersonName = "TestPerson",
+                Email = "Test@gmail.com",
+                Address = "TestAddress",
+                CountryID = countryResponse?.CountryID,
+                DateOfBirth = DateTime.Parse("2000-04-11"),
+                Gender = GenderOptions.Male,
+                RecieveNewsLetters = true
+            };
+
+            PersonResponse? personResponse = await _personService.AddPerson(personAddRequest);
+
+            PersonUpdateRequest? personUpdateRequest = personResponse.ToPersonUpdateRequest();
+            personUpdateRequest.PersonName = "Fahd";
+            personUpdateRequest.Email = "nabil@gmail.com";
+
+            PersonResponse? updated = await _personService.UpdatePerson(personUpdateRequest);
+            PersonResponse? GetById = await _personService.GetPersonByPersonId(personUpdateRequest.PersonId);
+
+            Assert.Equal(updated, GetById);
+        }
+
+
+        #endregion
+
+        #region DeletePerson
+
+        [Fact]
+        public async Task DeletePerson_NullPersonId()
+        {
+            Guid? personId = null;
+            await Assert.ThrowsAsync<ArgumentNullException>(async () =>
+            {
+                await _personService.DeletePerson(personId);
+            });
+        }
+
+        [Fact]
+        public async Task DeletePerson_InvalidPersonId()
+        {
+            Guid? personId = Guid.NewGuid();
+            
+            bool isDeleted = await _personService.DeletePerson(personId);
+            
+            Assert.False(isDeleted);
+        }
+
+        [Fact]
+        public async Task DeletePerson_ProperPersonId()
+        {
+            CountryAddRequest countryAddRequest = new CountryAddRequest()
+            {
+                CountryName = "TestCountry"
+            };
+            CountryResponse? countryResponse = await _countriesService.AddCountryAsync(countryAddRequest);
+            PersonAddRequest? personAddRequest = new PersonAddRequest()
+            {
+                PersonName = "TestPerson",
+                Email = "Test@gmail.com",
+                Address = "TestAddress",
+                CountryID = countryResponse.CountryID,
+                DateOfBirth = DateTime.Parse("2000-04-11"),
+                Gender = GenderOptions.Male,
+                RecieveNewsLetters = true
+            };
+
+            PersonResponse? personResponse = await _personService.AddPerson(personAddRequest);
+            
+            bool isDeleted = await _personService.DeletePerson(personResponse.PersonId);
+
+            List<PersonResponse> personResponses = await _personService.GetAllPersons();
+
+            _testOutputHelper.WriteLine("Person Deleted : " + personResponse.ToString());
+            _testOutputHelper.WriteLine("Persons Left : ");
+            foreach (var person in personResponses)
+            {
+                _testOutputHelper.WriteLine(person.ToString());
+            }
+            Assert.True(isDeleted);
+            Assert.DoesNotContain(personResponse, personResponses);
+        }
+    #endregion
+    }    
 }

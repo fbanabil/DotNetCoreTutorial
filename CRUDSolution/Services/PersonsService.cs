@@ -1,6 +1,7 @@
 ﻿using Entities;
 using ServiceContracts;
 using ServiceContracts.DTO;
+using ServiceContracts.Enums;
 using Services.Helpers;
 using System;
 using System.Collections.Generic;
@@ -136,6 +137,127 @@ namespace Services
                     break;
             }
             return matching;
+        }
+
+        public async Task<List<PersonResponse>> GetSortedPersons(List<PersonResponse> personResponses, string sortBy, SortOrderOptions sortOrder)
+        {
+            if(string.IsNullOrEmpty(sortBy) || personResponses == null || personResponses.Count == 0)
+            {
+                return personResponses;
+            }
+
+            // Sort the personResponses based on the sortBy parameter
+
+            List<PersonResponse> sortedResponse = (sortBy, sortOrder)
+            switch
+            {
+                (nameof(PersonResponse.PersonName), SortOrderOptions.ASC) 
+                    => personResponses.OrderBy(p => p.PersonName,StringComparer.OrdinalIgnoreCase).ToList(),
+                
+                (nameof(PersonResponse.PersonName), SortOrderOptions.DESC) 
+                    => personResponses.OrderByDescending(p => p.PersonName, StringComparer.OrdinalIgnoreCase).ToList(),
+                
+                (nameof(PersonResponse.Email), SortOrderOptions.ASC) 
+                    => personResponses.OrderBy(p => p.Email, StringComparer.OrdinalIgnoreCase).ToList(),
+                
+                (nameof(PersonResponse.Email), SortOrderOptions.DESC)
+                    => personResponses.OrderByDescending(p => p.Email, StringComparer.OrdinalIgnoreCase).ToList(),
+
+            
+                (nameof(PersonResponse.DateOfBirth), SortOrderOptions.ASC) 
+                    => personResponses.OrderBy(p => p.DateOfBirth).ToList(),
+
+                (nameof(PersonResponse.DateOfBirth), SortOrderOptions.DESC)
+                    => personResponses.OrderByDescending(p => p.DateOfBirth).ToList(),
+
+                (nameof(PersonResponse.Country), SortOrderOptions.ASC)
+                    => personResponses.OrderBy(p => p.Country, StringComparer.OrdinalIgnoreCase).ToList(),
+
+                (nameof(PersonResponse.Country), SortOrderOptions.DESC)
+                    => personResponses.OrderByDescending(p => p.Country, StringComparer.OrdinalIgnoreCase).ToList(),
+
+                (nameof(PersonResponse.Address), SortOrderOptions.ASC)
+                    => personResponses.OrderBy(p => p.Address, StringComparer.OrdinalIgnoreCase).ToList(),
+
+                (nameof(PersonResponse.Address), SortOrderOptions.DESC)
+                    => personResponses.OrderByDescending(p => p.Address, StringComparer.OrdinalIgnoreCase).ToList(),
+
+                (nameof(PersonResponse.Age), SortOrderOptions.ASC)
+                    => personResponses.OrderBy(p => p.Age).ToList(),
+
+                (nameof(PersonResponse.Age), SortOrderOptions.DESC)
+                    => personResponses.OrderByDescending(p => p.Age).ToList(),
+
+                (nameof(PersonResponse.RecieveNewsLetters), SortOrderOptions.ASC)
+                    => personResponses.OrderBy(p => p.RecieveNewsLetters).ToList(),
+
+                (nameof(PersonResponse.RecieveNewsLetters), SortOrderOptions.DESC)
+                    => personResponses.OrderByDescending(p => p.RecieveNewsLetters).ToList(),
+                
+                _=> personResponses
+            };
+
+            return sortedResponse;
+        }
+
+        public async Task<PersonResponse> UpdatePerson(PersonUpdateRequest? personUpdateRequest)
+        {
+            if(personUpdateRequest==null)
+            {
+                throw new ArgumentNullException(nameof(personUpdateRequest));
+            }
+
+            if(personUpdateRequest.PersonName==null)
+            {
+                throw new ArgumentException(nameof(personUpdateRequest.PersonName));
+            }
+
+            ValidationHelper.ModelValidate(personUpdateRequest);
+
+            Person? personResponse = _persons.FirstOrDefault(temp => temp.PersonId == personUpdateRequest.PersonId);
+
+            if(personResponse==null)
+            {
+                throw new ArgumentException(nameof(personResponse));
+            }
+
+            
+            personResponse.PersonName = personUpdateRequest.PersonName;
+            personResponse.Email = personUpdateRequest.Email;
+            personResponse.DateOfBirth = personUpdateRequest.DateOfBirth;
+            personResponse.Gender = personUpdateRequest.Gender.ToString();
+            personResponse.CountryID = personUpdateRequest.CountryID;
+            personResponse.Address = personUpdateRequest.Address;
+            personResponse.RecieveNewsLetters = personUpdateRequest.RecieveNewsLetters;
+
+            return personResponse.ToPersonResponse();
+
+
+        }
+
+        public async Task<bool> DeletePerson(Guid? personId)
+        {
+            if(personId==null)
+            {
+                throw new ArgumentNullException(nameof(personId));
+            }
+
+            Person? person = _persons.FirstOrDefault(p => p.PersonId == personId);
+
+            if (person == null)
+            {
+                return false;
+            }
+
+            bool isRemoved = _persons.Remove(person);
+            if (isRemoved)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
     }
 }
