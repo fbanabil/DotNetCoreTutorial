@@ -3,12 +3,7 @@ using ServiceContracts;
 using ServiceContracts.DTO;
 using ServiceContracts.Enums;
 using Services.Helpers;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace Services
 {
@@ -249,29 +244,27 @@ namespace Services
 
             switch(searchBy)
             {
-            case nameof(Person.PersonName):
+            case nameof(PersonResponse.PersonName):
                 matching=allPersons.Where(temp=>temp.PersonName != null && temp.PersonName!="" && 
                     temp.PersonName.Contains(searchString, StringComparison.OrdinalIgnoreCase)).ToList();
                 break;
-            case nameof(Person.Email):
+            case nameof(PersonResponse.Email):
                 matching = allPersons.Where(temp => temp.Email != null && temp.Email!="" &&
                     temp.Email.Contains(searchString, StringComparison.OrdinalIgnoreCase)).ToList();
                 break;
-            case nameof(Person.DateOfBirth):
+            case nameof(PersonResponse.DateOfBirth):
                 matching = allPersons.Where(temp => temp.DateOfBirth != null &&
                     temp.DateOfBirth.ToString().Contains(searchString, StringComparison.OrdinalIgnoreCase)).ToList();
                 break;
-            case nameof(Person.CountryID):
-                if (Guid.TryParse(searchString, out Guid countryId))
-                {
-                    matching = allPersons.Where(temp => temp.CountryID == countryId).ToList();
-                }
-                break;
-            case nameof(Person.Gender):
+            case nameof(PersonResponse.CountryID):
+                matching = allPersons.Where(temp=> temp.Country != null && temp.Country != "" && 
+                    temp.Country.Contains(searchString, StringComparison.OrdinalIgnoreCase)).ToList();
+                    break;
+            case nameof(PersonResponse.Gender):
                 matching = allPersons.Where(temp => temp.Gender != null &&
                     temp.Gender.ToString().Contains(searchString, StringComparison.OrdinalIgnoreCase)).ToList();
                 break;
-            case nameof(Person.Address):
+            case nameof(PersonResponse.Address):
                 matching = allPersons.Where(temp => temp.Address != null && temp.Address!="" &&
                     temp.Address.Contains(searchString, StringComparison.OrdinalIgnoreCase)).ToList();
                 break;

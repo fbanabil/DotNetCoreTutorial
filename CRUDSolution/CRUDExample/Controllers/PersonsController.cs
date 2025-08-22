@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using ServiceContracts;
 using ServiceContracts.DTO;
+using ServiceContracts.Enums;
 using System.Security;
 
 namespace CRUDExample.Controllers
@@ -18,11 +19,33 @@ namespace CRUDExample.Controllers
 
         [Route("persons/index")]
         [Route("/")]
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string searchBy,string? searchString,
+            string sortBy=nameof(PersonResponse.PersonName) , 
+            SortOrderOptions sortOrder = SortOrderOptions.ASC)
         {
-            List<PersonResponse> persons = await _personsService.GetAllPersons();
+            // Search Fields
+            ViewBag.SearchFields = new Dictionary<string, string>()
+            {  
+                { nameof(PersonResponse.PersonName)  , "Person Name" },
+                { nameof(PersonResponse.Email)       , "Email" },
+                { nameof(PersonResponse.DateOfBirth) , "Date of Birth" },
+                { nameof(PersonResponse.Gender) , "Gender" },
+                { nameof(PersonResponse.CountryID) , "Country" },
+                { nameof(PersonResponse.Address)     , "Address" }
+            };
 
-            return View(persons);
+            ViewBag.SearchBy = searchBy;
+            ViewBag.SearchString = searchString;
+            
+            // Search Operation
+            List<PersonResponse> persons = await _personsService.GetFilteredPerson(searchBy, searchString);
+
+            ViewBag.SortBy = sortBy;
+            ViewBag.SortOrder = sortOrder.ToString();
+            // Sorting 
+            List<PersonResponse> sortedPersons = await _personsService.GetSortedPersons(persons, sortBy, sortOrder);
+
+            return View(sortedPersons);
         }
     }
 }
