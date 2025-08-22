@@ -1,0 +1,33 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+    <link rel="stylesheet" href="~/StyleSheet.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/fontawesome.min.css" 
+        integrity="sha512-J2Gce+WmOttffHOrVKLTlzxIalPXUMDbSfn5ADqp8Vj9EngnjNHr+jjiL3ZB8muEzo+K51gU10X+0eGqGNL7QA==" 
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+<body>
+    <div class="container">
+
+        <div class="navbar">
+
+            <div class="navbar-brand"> CRUD Demon </div>
+            
+            <ul>
+                <li>
+                    <a href="~/persons/index">Person</a>
+                </li>
+            
+            </ul>
+        </div>
+
+        <div class="page-content">
+            @RenderBody()
+        </div>
+
+    </div>
+</body>
+</html>
