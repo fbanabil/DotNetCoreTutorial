@@ -3,11 +3,10 @@
     ViewBag.Title = "Persons";
 }
 
-<form action="~/persons/index" method="get">
+<form asp-controller="Persons" asp-action="Index" method="get">
 
     <h1>Persons</h1>
-
-
+    <a asp-controller="Persons" asp-action="Create" >Create Person</a>
     <div class="box flex">
 
         <div class="flex-1">
@@ -21,7 +20,6 @@
                     }
                     <option value="@fields.Key">@fields.Value</option>
                 }
-
             </select>
         </div>
 
@@ -31,15 +29,12 @@
         @* searchBy=option?searchString=XXX *@
         <div class="flex-1">
             <button class="button button-blue-back" id="search">Search</button>
-            <a href="~/persons/index" class="link-hover">Clear all</a>
+            <a asp-controller="Persons" asp-action="Index" class="link-hover">Clear all</a>
         </div>
 
     </div>
 
-
-
     <table class="table w-100 mt">
-
         <thead>
             <tr>
 
@@ -56,8 +51,6 @@
                                 {"ColumnName",nameof(PersonResponse.Email)},
                                 {"DisplayName" ,"Email"}
                                 })
-
-
 
                 @await Html.PartialAsync("_GridColumnHeader",
                                 new ViewDataDictionary(ViewData)
@@ -119,6 +112,5 @@
                 </tr>
             }
         </tbody>
-
     </table>
 </form>
