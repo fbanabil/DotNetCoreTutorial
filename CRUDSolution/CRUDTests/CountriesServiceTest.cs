@@ -4,14 +4,16 @@ using System.Collections.Generic;
 using ServiceContracts.DTO;
 using Entities;
 using Services;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 namespace CRUDTests
 {
     public class CountriesServiceTest
     {
         private readonly ICountriesService _countriesService;
-        public CountriesServiceTest()
+        public CountriesServiceTest(IConfiguration config)
         {
-            _countriesService = new CountriesService(false);
+            _countriesService = new CountriesService(new PersonsDbContext(new DbContextOptionsBuilder<PersonsDbContext>().Options));
         }
 
 

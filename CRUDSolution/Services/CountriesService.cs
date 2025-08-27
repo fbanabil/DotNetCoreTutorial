@@ -1,4 +1,5 @@
 ﻿using Entities;
+using Microsoft.EntityFrameworkCore;
 using ServiceContracts;
 using ServiceContracts.DTO;
 
@@ -8,50 +9,11 @@ namespace Services
     {
         //Private readonly List<Country> _countries;
 
-        private readonly List<Country> _countries;
+        private readonly PersonsDbContext _db;
 
-        public CountriesService(bool initialize = true)
+        public CountriesService(PersonsDbContext db)
         {
-            _countries = new List<Country>();
-            if (initialize)
-            {
-                // {73ECD269-285B-42CA-9BB3-FA288B5C2299}
-                _countries.AddRange(new List<Country>()
-                {
-                    new Country()
-                    {
-                        CountryID = Guid.Parse("73ECD269-285B-42CA-9BB3-FA288B5C2299"),
-                        CountryName = "India"
-                    },
-
-                    // {6C6AFC4D-516C-45E6-8D7B-94AD4591FB4E}
-                    new Country()
-                    {
-                        CountryID = Guid.Parse("6C6AFC4D-516C-45E6-8D7B-94AD4591FB4E"),
-                        CountryName = "USA"
-                    },
-                    // {390CF153-CD9C-4B8D-8A8F-1ECBB299C3F3}
-                    new Country()
-                    {
-                        CountryID = Guid.Parse("390CF153-CD9C-4B8D-8A8F-1ECBB299C3F3"),
-                        CountryName = "UK"
-                    },
-                    // {BAADAA75-4FE4-46D3-AB45-21EFA840122C}
-                    new Country()
-                    {
-                        CountryID = Guid.Parse("BAADAA75-4FE4-46D3-AB45-21EFA840122C"),
-                        CountryName = "Australia"
-                    },
-                    // {4A146B3D-9F92-42FB-9FDF-1942C9850C39}
-                    new Country()
-                    {
-                        CountryID = Guid.Parse("4A146B3D-9F92-42FB-9FDF-1942C9850C39"),
-                        CountryName = "Canada"
-                    }
-                });
-
-            }
-
+            _db = db;
         }
 
         public async Task<CountryResponse?> AddCountryAsync(CountryAddRequest countryAddRequest)
@@ -61,6 +23,7 @@ namespace Services
             {
                 throw new ArgumentNullException(nameof(countryAddRequest));
             }
+            
             // Check if the country name is null or empty
             if (string.IsNullOrWhiteSpace(countryAddRequest.CountryName))
             {
@@ -68,7 +31,7 @@ namespace Services
             }
 
             // Check if the country already exists
-            if (_countries.Where(temp => temp.CountryName == countryAddRequest.CountryName).ToList().Count > 0)
+            if (await _db.Countries.CountAsync(temp => temp.CountryName == countryAddRequest.CountryName) > 0)
             {
                 throw new ArgumentException($"Country with name '{countryAddRequest.CountryName}' already exists.", nameof(countryAddRequest.CountryName));
             }
@@ -76,14 +39,15 @@ namespace Services
             Country country = countryAddRequest.ToCountry();
 
             country.CountryID = Guid.NewGuid();
-            _countries.Add(country);
+            await _db.Countries.AddAsync(country);
+            await _db.SaveChangesAsync();
 
             return country.ToCountryResponse();
         }
 
         public async Task<List<CountryResponse>?> GetAllCountries()
         {
-            List<CountryResponse>? countryResponses = _countries.Select((country) => country.ToCountryResponse()).ToList();
+            List<CountryResponse>? countryResponses = await _db.Countries.Select((country) => country.ToCountryResponse()).ToListAsync();
             return countryResponses;
         }
 
@@ -94,7 +58,7 @@ namespace Services
                 throw new ArgumentNullException("CountryID can't be null");
             }
 
-            Country? country = _countries.FirstOrDefault(temp => temp.CountryID == countryID);
+            Country? country = await _db.Countries.FirstOrDefaultAsync(temp => temp.CountryID == countryID);
             if (country == null)
             {
                 return null;
