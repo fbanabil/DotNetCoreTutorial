@@ -1,4 +1,5 @@
-﻿using ServiceContracts.DTO;
+﻿using Microsoft.AspNetCore.Http;
+using ServiceContracts.DTO;
 using ServiceContracts.Enums;
 using System;
 using System.Collections.Generic;
@@ -79,5 +80,8 @@ namespace ServiceContracts
         /// </summary>
         /// <returns>Memory stream</returns>
         Task<MemoryStream> GetPersonsExcel();
+
+
+        
     }
 }

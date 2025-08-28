@@ -1,5 +1,7 @@
 ﻿using Entities;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
+using OfficeOpenXml;
 using ServiceContracts;
 using ServiceContracts.DTO;
 
@@ -64,6 +66,39 @@ namespace Services
                 return null;
             }
             else return country.ToCountryResponse();
+        }
+
+        public async Task<int> UploadCountriesFromExcelFile(IFormFile formFile)
+        {
+            MemoryStream stream = new MemoryStream();
+
+            await formFile.CopyToAsync(stream);
+            int insertedRecords = 0;
+            using (ExcelPackage excelPackage = new ExcelPackage(stream))
+            {
+                ExcelWorksheet worksheet = excelPackage.Workbook.Worksheets["Countries"];
+                int rowCount = worksheet.Dimension.Rows; 
+                for (int row=2;row<=rowCount;row++)
+                {
+                    string? cellValue = Convert.ToString(worksheet.Cells[row, 1].Value);
+
+                    if(!String.IsNullOrWhiteSpace(cellValue))
+                    {
+                        string? countryName = cellValue;
+
+                        if(await _db.Countries.Where(temp=> temp.CountryName == countryName).CountAsync() == 0)
+                        {
+                            CountryAddRequest countryAddRequest = new CountryAddRequest()
+                            {
+                                CountryName=countryName
+                            };
+                            await AddCountryAsync(countryAddRequest);
+                            insertedRecords++;
+                        }
+                    }
+                }
+            }
+            return insertedRecords;
         }
     }
 }
