@@ -12,7 +12,7 @@ builder.Services.AddRouting();
 builder.Services.AddScoped<ICountriesService, CountriesService>();
 builder.Services.AddScoped<IPersonsService, PersonsService>();
 
-builder.Services.AddDbContext<PersonsDbContext>(
+builder.Services.AddDbContext<ApplicationDbContext>(
 
     options =>
     {

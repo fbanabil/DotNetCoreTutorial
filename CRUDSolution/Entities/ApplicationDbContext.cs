@@ -10,17 +10,15 @@ using System.Threading.Tasks;
 
 namespace Entities
 {
-    public class PersonsDbContext : DbContext
+    public class ApplicationDbContext : DbContext
     {
-        private readonly IConfiguration _configuration;
-        public PersonsDbContext(DbContextOptions options, IConfiguration configuration) : base(options)
+        public ApplicationDbContext(DbContextOptions options) : base(options)
         {
-            _configuration = configuration;
         }
         
         
-        public DbSet<Country> Countries { get; set; }
-        public DbSet<Person> Persons { get; set; }
+        public virtual DbSet<Country> Countries { get; set; }
+        public virtual DbSet<Person> Persons { get; set; }
 
 
         //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
