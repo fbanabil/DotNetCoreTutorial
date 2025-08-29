@@ -1,6 +1,8 @@
 using Entities;
 using Microsoft.EntityFrameworkCore;
 using OfficeOpenXml;
+using Repository;
+using RepositoryContracts;
 using ServiceContracts;
 using Services;
 
@@ -11,6 +13,9 @@ builder.Services.AddRouting();
 
 builder.Services.AddScoped<ICountriesService, CountriesService>();
 builder.Services.AddScoped<IPersonsService, PersonsService>();
+
+builder.Services.AddScoped<IPersonsRepository, PersonsRepository>();
+builder.Services.AddScoped<ICountriesRepository, CountriesRepository>();
 
 builder.Services.AddDbContext<ApplicationDbContext>(
 
