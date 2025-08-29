@@ -94,9 +94,9 @@ namespace CRUDExample.Controllers
                 });
 
                 ViewBag.Errors = ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage).ToList();
-                ViewBag.PersonName = personAddRequest.PersonName;
+                //ViewBag.PersonName = personAddRequest.PersonName;
 
-                return View();
+                return View(personAddRequest);
             }
 
             PersonResponse personResponse = await _personsService.AddPerson(personAddRequest);
