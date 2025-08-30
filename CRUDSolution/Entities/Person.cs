@@ -40,5 +40,10 @@ namespace Entities
 
         [ForeignKey("CountryID")]
         public Country? Country { get; set; }
+
+        public override string ToString()
+        {
+            return $"PersonID={PersonId}, PersonName={PersonName}, Email={Email}, DateOfBirth={DateOfBirth}, Gender={Gender}, Countr={Country.CountryName}, Address={Address}, Receive News letters={RecieveNewsLetters} ";
+        }
     }
 }

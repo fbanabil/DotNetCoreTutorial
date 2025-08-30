@@ -1,7 +1,9 @@
 ﻿using AutoFixture;
+using Castle.Core.Logging;
 using CRUDExample.Controllers;
 using FluentAssertions;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using Moq;
 using ServiceContracts;
 using ServiceContracts.DTO;
@@ -23,11 +25,13 @@ namespace CRUDTests
         private readonly Mock<ICountriesService> _countriesServiceMock;
 
         private readonly IFixture _fixture;
+        private readonly Mock<ILogger<PersonsController>> _loggerMock;
 
 
         public PersonsControllerTest()
         {
             _fixture = new Fixture();
+            _loggerMock = new Mock<ILogger<PersonsController>>();
             _personsServiceMock = new Mock<IPersonsService>();
             _countriesServiceMock = new Mock<ICountriesService>();
             _personsService = _personsServiceMock.Object;
@@ -40,7 +44,7 @@ namespace CRUDTests
         {
             List<PersonResponse> person_response_list=_fixture.Create<List<PersonResponse>>();
 
-            PersonsController personsController = new PersonsController(_personsService, _countryService);
+            PersonsController personsController = new PersonsController(_personsService, _countryService,_loggerMock.Object);
 
             _personsServiceMock.Setup(temp=>temp.GetFilteredPerson(It.IsAny<string>(),It.IsAny<string>()))
                 .ReturnsAsync(person_response_list);
@@ -76,7 +80,7 @@ namespace CRUDTests
 
             _personsServiceMock.Setup(temp => temp.AddPerson(It.IsAny<PersonAddRequest>())).ReturnsAsync(personResponse);
 
-            PersonsController personsController = new PersonsController(_personsService, _countryService);
+            PersonsController personsController = new PersonsController(_personsService, _countryService, _loggerMock.Object);
 
             personsController.ModelState.AddModelError("PersonName", "Person Name Can not be blank");
 
@@ -105,7 +109,7 @@ namespace CRUDTests
 
             _personsServiceMock.Setup(temp => temp.AddPerson(It.IsAny<PersonAddRequest>())).ReturnsAsync(personResponse);
 
-            PersonsController personsController = new PersonsController(_personsService, _countryService);
+            PersonsController personsController = new PersonsController(_personsService, _countryService, _loggerMock.Object);
 
 
             IActionResult result = await personsController.Create(personsAddRequest);
