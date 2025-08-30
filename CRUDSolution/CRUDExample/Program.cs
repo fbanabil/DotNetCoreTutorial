@@ -8,6 +8,16 @@ using Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// Logging
+
+builder.Host.ConfigureLogging(loggingProvider =>
+{
+    loggingProvider.ClearProviders();
+    loggingProvider.AddConsole();
+    loggingProvider.AddDebug();
+    loggingProvider.AddEventLog();
+});
+
 builder.Services.AddControllersWithViews();
 builder.Services.AddRouting();
 
@@ -30,6 +40,12 @@ if(builder.Environment.IsEnvironment("Test") == false)
 
 //Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=PersonsDatabase;Integrated Security=True;Connect Timeout=30;Encrypt=False;Trust Server Certificate=False;Application Intent=ReadWrite;Multi Subnet Failover=False
 
+builder.Services.AddHttpLogging(logging =>
+{
+    logging.LoggingFields = Microsoft.AspNetCore.HttpLogging.HttpLoggingFields.RequestProperties;
+    logging.LoggingFields = Microsoft.AspNetCore.HttpLogging.HttpLoggingFields.ResponsePropertiesAndHeaders;
+});
+
 
 var app = builder.Build();
 
@@ -38,6 +54,16 @@ if(builder.Environment.IsDevelopment())
 {
     app.UseDeveloperExceptionPage();
 }
+
+app.UseHttpLogging();
+
+//app.Logger.LogTrace("This is a trace message");
+//app.Logger.LogDebug("This is a debug message");
+//app.Logger.LogInformation("Application started");
+//app.Logger.LogWarning("This is a warning message");
+//app.Logger.LogError("This is an error message");
+//app.Logger.LogCritical("This is a critical message");
+
 
 if (builder.Environment.IsEnvironment("Test") == false)
 {

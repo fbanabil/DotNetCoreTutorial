@@ -2,6 +2,7 @@
 using CsvHelper.Configuration;
 using Entities;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using OfficeOpenXml;
 using RepositoryContracts;
 using ServiceContracts;
@@ -15,10 +16,12 @@ namespace Services
     {
 
         private readonly IPersonsRepository _personsRepository;
+        private readonly ILogger<PersonsService> _logger;
 
         // Initialize _persons in the constructor to avoid null reference
-        public PersonsService(IPersonsRepository personsRepository)
+        public PersonsService(IPersonsRepository personsRepository,ILogger<PersonsService> logger)
         {
+            _logger = logger;
             _personsRepository = personsRepository;
         }
     
@@ -62,6 +65,7 @@ namespace Services
 
         public async Task<List<PersonResponse>> GetAllPersons()
         {
+            _logger.LogInformation("GetAllPersons method of PersonsService called");
             return (await _personsRepository.GetAllPersons())
                 .Select(person => person.ToPersonResponse()).ToList();
         }
@@ -84,7 +88,11 @@ namespace Services
 
         public async Task<List<PersonResponse>> GetFilteredPerson(string searchBy, string? searchString)
         {
-            if(searchString==null)
+            _logger.LogInformation("GetFilteredPerson method of PersonsService called");
+
+
+
+            if (searchString==null)
             {
                 return await GetAllPersons();
             }
@@ -119,7 +127,9 @@ namespace Services
 
         public async Task<List<PersonResponse>> GetSortedPersons(List<PersonResponse> personResponses, string sortBy, SortOrderOptions sortOrder)
         {
-            if(string.IsNullOrEmpty(sortBy) || personResponses == null || personResponses.Count == 0)
+            _logger.LogInformation("GetSortedPersons method of PersonsService called");
+
+            if (string.IsNullOrEmpty(sortBy) || personResponses == null || personResponses.Count == 0)
             {
                 return personResponses;
             }

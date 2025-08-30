@@ -16,11 +16,13 @@ namespace CRUDExample.Controllers
 
         private readonly IPersonsService _personsService;
         private readonly ICountriesService _countriesService;
+        private readonly ILogger<PersonsController> _logger;
 
-        public PersonsController(IPersonsService personsService, ICountriesService countriesService)
+        public PersonsController(IPersonsService personsService, ICountriesService countriesService, ILogger<PersonsController> logger)
         {
             _personsService = personsService;
             _countriesService = countriesService;
+            _logger = logger;
         }
 
 
@@ -31,6 +33,11 @@ namespace CRUDExample.Controllers
             string sortBy = nameof(PersonResponse.PersonName),
             SortOrderOptions sortOrder = SortOrderOptions.ASC)
         {
+
+            _logger.LogInformation("Index action method of PersonsController called");
+
+            _logger.LogDebug($"SearchBy: {searchBy}, SearchString: {searchString}, SortBy: {sortBy}, SortOrder: {sortOrder}");
+
             // Search Fields
             ViewBag.SearchFields = new Dictionary<string, string>()
             {
