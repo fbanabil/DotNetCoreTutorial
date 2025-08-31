@@ -1,4 +1,5 @@
 ﻿using CRUDExample.Filters.ActionFilters;
+using CRUDExample.Filters.ResultFilters;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Rotativa.AspNetCore;
@@ -12,7 +13,7 @@ using System.Threading.Tasks;
 namespace CRUDExample.Controllers
 {
     [Route("[controller]")]
-    [TypeFilter(typeof(ResponseHeaderActionFilter), Arguments = new object[] { "X-Custom-Key-From-Action", "Custom-Value" ,3})]
+    [TypeFilter(typeof(ResponseHeaderActionFilter), Arguments = new object[] { "X-Custom-Key-From-Action", "Custom-Value" ,3},Order = 3)]
     public class PersonsController : Controller
     {
 
@@ -31,8 +32,9 @@ namespace CRUDExample.Controllers
         [Route("[action]")] // Takes persons/index 
         // [Route("/index")] // "/" override. it takes /index
         [Route("/")]
-        [TypeFilter(typeof(PersonsListActionFilter))]
-        [TypeFilter(typeof(ResponseHeaderActionFilter), Arguments = new object[] { "X-Custom-Key", "Custom-Value" ,1})]
+        [TypeFilter(typeof(PersonsListActionFilter),Order = 4)]
+        [TypeFilter(typeof(ResponseHeaderActionFilter), Arguments = new object[] { "X-Custom-Key", "Custom-Value" ,1},Order =1)]
+        [TypeFilter(typeof(PersonsListResultFilter))]
         public async Task<IActionResult> Index(string searchBy, string? searchString,
             string sortBy = nameof(PersonResponse.PersonName),
             SortOrderOptions sortOrder = SortOrderOptions.ASC)
@@ -95,31 +97,13 @@ namespace CRUDExample.Controllers
 
         [Route("[action]")]
         [HttpPost]
-        public async Task<IActionResult> Create(PersonAddRequest personAddRequest)
+        [TypeFilter(typeof(PersonCreatAndEditPostActionFilter))]
+        public async Task<IActionResult> Create(PersonAddRequest personRequest)
         {
-            if (!ModelState.IsValid)
-            {
-                List<CountryResponse>? countries =
-                await _countriesService.GetAllCountries();
-
-                ViewBag.Countries = countries;
-
-                ViewBag.Countries = countries?.Select(temp =>
-                new SelectListItem()
-                {
-                    Text = temp.CountryName,
-                    Value = temp.CountryID.ToString()
-                });
-
-                ViewBag.Errors = ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage).ToList();
-                //ViewBag.PersonName = personAddRequest.PersonName;
-
-                return View(personAddRequest);
-            }
-
-            PersonResponse personResponse = await _personsService.AddPerson(personAddRequest);
+            PersonResponse personResponse = await _personsService.AddPerson(personRequest);
             return RedirectToAction("Index", "Persons");
         }
+
 
 
         [HttpGet]
@@ -157,41 +141,21 @@ namespace CRUDExample.Controllers
 
         [HttpPost]
         [Route("[action]")]
-        public async Task<IActionResult> Edit(PersonUpdateRequest personUpdateRequest)
+        [TypeFilter(typeof(PersonCreatAndEditPostActionFilter))]
+        public async Task<IActionResult> Edit(PersonUpdateRequest personRequest)
         {
 
-            PersonResponse? personResponse = await _personsService.GetPersonByPersonId(personUpdateRequest.PersonId);
+            PersonResponse? personResponse = await _personsService.GetPersonByPersonId(personRequest.PersonId);
 
             if (personResponse == null)
             {
                 return RedirectToAction("Index");
             }
 
-            if (ModelState.IsValid)
-            {
-                PersonResponse updatedPerson = await _personsService.UpdatePerson(personUpdateRequest);
-                return RedirectToAction("Index");
-            }
-            else
-            {
-                PersonUpdateRequest personUpdateRequest_1 = personResponse.ToPersonUpdateRequest();
 
-                List<CountryResponse>? countries =
-                   await _countriesService.GetAllCountries();
-
-                ViewBag.Countries = countries;
-
-                ViewBag.Countries = countries?.Select(temp =>
-                new SelectListItem()
-                {
-                    Text = temp.CountryName,
-                    Value = temp.CountryID.ToString()
-                });
-
-                ViewBag.Errors = ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage).ToList();
-
-                return View(personUpdateRequest_1);
-            }
+            PersonResponse updatedPerson = await _personsService.UpdatePerson(personRequest);
+            return RedirectToAction("Index");
+           
         }
 
 
