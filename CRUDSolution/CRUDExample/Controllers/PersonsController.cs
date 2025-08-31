@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using CRUDExample.Filters.ActionFilters;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Rotativa.AspNetCore;
 using ServiceContracts;
@@ -27,8 +28,10 @@ namespace CRUDExample.Controllers
 
 
         [Route("[action]")] // Takes persons/index 
-        // [Route("/index")] // "/" override.iT takes /index
+        // [Route("/index")] // "/" override. it takes /index
         [Route("/")]
+        [TypeFilter(typeof(PersonsListActionFilter))]
+        [TypeFilter(typeof(ResponseHeaderActionFilter), Arguments = new object[] { "X-Custom-Key", "Custom-Value" })]
         public async Task<IActionResult> Index(string searchBy, string? searchString,
             string sortBy = nameof(PersonResponse.PersonName),
             SortOrderOptions sortOrder = SortOrderOptions.ASC)
@@ -49,14 +52,20 @@ namespace CRUDExample.Controllers
                 { nameof(PersonResponse.Address)     , "Address" }
             };
 
-            ViewBag.SearchBy = searchBy;
-            ViewBag.SearchString = searchString;
+            // Transfered to filer
+            //ViewBag.SearchBy = searchBy;
+            //ViewBag.SearchString = searchString;
 
             // Search Operation
             List<PersonResponse> persons = await _personsService.GetFilteredPerson(searchBy, searchString);
 
-            ViewBag.SortBy = sortBy;
-            ViewBag.SortOrder = sortOrder.ToString();
+
+
+            // Transfered to filer
+            //ViewBag.SortBy = sortBy;
+            //ViewBag.SortOrder = sortOrder.ToString();
+            
+            
             // Sorting 
             List<PersonResponse> sortedPersons = await _personsService.GetSortedPersons(persons, sortBy, sortOrder);
 
@@ -66,6 +75,7 @@ namespace CRUDExample.Controllers
 
         [Route("[action]")]
         [HttpGet]
+        [TypeFilter(typeof(ResponseHeaderActionFilter), Arguments = new object[] { "X-Custom-Key", "Custom-Value" })]
         public async Task<IActionResult> Create()
         {
             List<CountryResponse>? countries =
