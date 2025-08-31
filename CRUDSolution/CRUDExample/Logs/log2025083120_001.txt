@@ -1,0 +1,44 @@
+2025-08-31 20:45:54.826 +06:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-08-31 20:45:54.836 +06:00 [INF] Hosting environment: Development
+2025-08-31 20:45:54.839 +06:00 [INF] Content root path: F:\ASPNETCORE\CRUDSolution\CRUDExample
+2025-08-31 20:48:40.885 +06:00 [INF] User profile is available. Using 'C:\Users\ASUS\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2025-08-31 20:48:41.074 +06:00 [INF] Now listening on: http://localhost:5269
+2025-08-31 20:48:41.468 +06:00 [INF] Request starting HTTP/1.1 GET http://localhost:5269/ - null null
+2025-08-31 20:48:41.564 +06:00 [INF] Executing endpoint 'CRUDExample.Controllers.PersonsController.Index (CRUDExample)'
+2025-08-31 20:48:41.628 +06:00 [INF] Route matched with {action = "Index", controller = "Persons"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Index(System.String, System.String, System.String, ServiceContracts.Enums.SortOrderOptions) on controller CRUDExample.Controllers.PersonsController (CRUDExample).
+2025-08-31 20:48:41.802 +06:00 [INF] ResponseHeaderActionFilter.OnActionExecuting: Before executing the action method
+2025-08-31 20:48:41.806 +06:00 [INF] PersonsListActionFilter.OnActionExecuting: After executing the action method
+2025-08-31 20:48:41.808 +06:00 [INF] ResponseHeaderActionFilter.OnActionExecuting: Before executing the action method
+2025-08-31 20:48:41.811 +06:00 [INF] ResponseHeaderActionFilter.OnActionExecuting: Before executing the action method
+2025-08-31 20:48:41.831 +06:00 [INF] Index action method of PersonsController called
+2025-08-31 20:48:41.892 +06:00 [INF] GetFilteredPerson method of PersonsService called
+2025-08-31 20:48:41.895 +06:00 [INF] GetAllPersons method of PersonsService called
+2025-08-31 20:48:41.900 +06:00 [INF] GetAllPersons in PersonsRepository
+2025-08-31 20:48:42.993 +06:00 [INF] Executed DbCommand (22ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [p].[PersonId], [p].[Address], [p].[CountryID], [p].[DateOfBirth], [p].[Email], [p].[Gender], [p].[PersonName], [p].[RecieveNewsLetters], [p].[TaxIdentificationNumber], [c].[CountryID], [c].[CountryName]
+FROM [Persons] AS [p]
+LEFT JOIN [Countries] AS [c] ON [p].[CountryID] = [c].[CountryID]
+2025-08-31 20:48:43.085 +06:00 [INF] GetSortedPersons method of PersonsService called
+2025-08-31 20:48:43.089 +06:00 [INF] ResponseHeaderActionFilter.OnActionExecuted: After executing the action method
+2025-08-31 20:48:43.091 +06:00 [INF] ResponseHeaderActionFilter.OnActionExecuted: After executing the action method
+2025-08-31 20:48:43.094 +06:00 [INF] PersonsListActionFilter.OnActionExecuted: After executing the action method
+2025-08-31 20:48:43.096 +06:00 [INF] ResponseHeaderActionFilter.OnActionExecuted: After executing the action method
+2025-08-31 20:48:43.108 +06:00 [INF] Executing ViewResult, running view Index.
+2025-08-31 20:48:43.319 +06:00 [INF] Executed ViewResult - view Index executed in 213.5136ms.
+2025-08-31 20:48:43.324 +06:00 [INF] Executed action CRUDExample.Controllers.PersonsController.Index (CRUDExample) in 1691.6745ms
+2025-08-31 20:48:43.328 +06:00 [INF] Executed endpoint 'CRUDExample.Controllers.PersonsController.Index (CRUDExample)'
+2025-08-31 20:48:43.334 +06:00 [INF] Response:
+StatusCode: 200
+Content-Type: text/html; charset=utf-8
+Date: Sun, 31 Aug 2025 14:48:43 GMT
+Server: Kestrel
+Transfer-Encoding: chunked
+My-Key-Global: [Redacted]
+X-Custom-Key: [Redacted]
+X-Custom-Key-From-Action: [Redacted]
+2025-08-31 20:48:43.339 +06:00 [INF] HTTP GET / responded 200 in 1795.3279 ms
+2025-08-31 20:48:43.354 +06:00 [INF] Request finished HTTP/1.1 GET http://localhost:5269/ - 200 null text/html; charset=utf-8 1898.1945ms
+2025-08-31 20:48:43.365 +06:00 [INF] Request starting HTTP/1.1 GET http://localhost:5269/_framework/aspnetcore-browser-refresh.js - null null
+2025-08-31 20:48:43.365 +06:00 [INF] Request starting HTTP/1.1 GET http://localhost:5269/_vs/browserLink - null null
+2025-08-31 20:48:43.371 +06:00 [INF] Request finished HTTP/1.1 GET http://localhost:5269/_framework/aspnetcore-browser-refresh.js - 200 16507 application/javascript; charset=utf-8 7.0098ms
+2025-08-31 20:48:43.413 +06:00 [INF] Request finished HTTP/1.1 GET http://localhost:5269/_vs/browserLink - 200 null text/javascript; charset=UTF-8 48.2042ms

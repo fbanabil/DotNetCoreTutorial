@@ -6,6 +6,7 @@ using RepositoryContracts;
 using ServiceContracts;
 using Services;
 using Serilog;
+using CRUDExample.Filters.ActionFilters;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -26,7 +27,19 @@ builder.Host.UseSerilog((HostBuilderContext context, IServiceProvider services,L
 
 });
 
-builder.Services.AddControllersWithViews();
+builder.Services.AddControllersWithViews(options=>
+{
+    // Global Filters
+    //options.Filters.Add<ResponseHeaderActionFilter>(); //No parameter constructor
+
+    var _logger = builder.Services.BuildServiceProvider().GetRequiredService<ILogger<ResponseHeaderActionFilter>>(); // To resolve ILogger in ResponseHeaderActionFilter constructor
+
+    options.Filters.Add(new ResponseHeaderActionFilter(_logger, "My-Key-Global", "My Value",2)); // With parameter constructor
+});
+
+
+
+
 builder.Services.AddRouting();
 
 builder.Services.AddScoped<ICountriesService, CountriesService>();
