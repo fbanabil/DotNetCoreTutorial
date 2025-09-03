@@ -27,6 +27,9 @@ builder.Host.UseSerilog((HostBuilderContext context, IServiceProvider services,L
 
 });
 
+builder.Services.AddTransient<ResponseHeaderActionFilter>(); // Registering ResponseHeaderActionFilter for DI
+
+
 builder.Services.AddControllersWithViews(options=>
 {
     // Global Filters
@@ -34,10 +37,16 @@ builder.Services.AddControllersWithViews(options=>
 
     //options.Filters.Add<ResponseHeaderActionFilter>(1); //  Order = 1 but no parameter constructor
 
+    
 
-    //var _logger = builder.Services.BuildServiceProvider().GetRequiredService<ILogger<ResponseHeaderActionFilter>>(); // To resolve ILogger in ResponseHeaderActionFilter constructor
+    var _logger = builder.Services.BuildServiceProvider().GetRequiredService<ILogger<ResponseHeaderActionFilter>>(); // To resolve ILogger in ResponseHeaderActionFilter constructor
 
-    options.Filters.Add(new ResponseHeaderActionFilter("My-Key-Global", "My Value",2)); // With parameter constructor
+    options.Filters.Add(new ResponseHeaderActionFilter(_logger)
+    {
+        _key= "X-Global-Key",
+        _value = "Global-Value",
+        Order = 2
+    }); // With parameter constructor
 });
 
 

@@ -18,7 +18,10 @@ using System.Threading.Tasks;
 namespace CRUDExample.Controllers
 {
     [Route("[controller]")]
-    [ResponseHeaderActionFilter("X-Custom-Key-From-Action", "Custom-Value",3)]
+    //[TypeFilter(typeof(ResponseHeaderActionFilter), Arguments = new object[] { "X-Custom-Key-From-Action", "Custom-Value" ,3},Order = 3)]
+
+    [ResponseHeaderFilterFactory("X-Key","x-Value",3)]
+
     [TypeFilter(typeof(HandleExceptionFilter))]
     [TypeFilter(typeof(PersonsAlwaysRunResultFilter))]
 
@@ -41,7 +44,7 @@ namespace CRUDExample.Controllers
         // [Route("/index")] // "/" override. it takes /index
         [Route("/")]
         [TypeFilter(typeof(PersonsListActionFilter),Order = 4)]
-        [TypeFilter(typeof(ResponseHeaderActionFilter), Arguments = new object[] { "X-Custom-Key", "Custom-Value" ,1},Order =1)]
+        //[TypeFilter(typeof(ResponseHeaderActionFilter), Arguments = new object[] { "X-Custom-Key", "Custom-Value" ,1},Order =1)]
         [TypeFilter(typeof(PersonsListResultFilter))]
         [SkipFilter]
         public async Task<IActionResult> Index(string searchBy, string? searchString,
@@ -87,7 +90,7 @@ namespace CRUDExample.Controllers
 
         [Route("[action]")]
         [HttpGet]
-        [TypeFilter(typeof(ResponseHeaderActionFilter), Arguments = new object[] { "X-Custom-Key-From-Action", "Custom-Value" ,1})]
+        //[TypeFilter(typeof(ResponseHeaderActionFilter), Arguments = new object[] { "X-Custom-Key-From-Action", "Custom-Value" ,1})]
         public async Task<IActionResult> Create()
         {
             List<CountryResponse>? countries =

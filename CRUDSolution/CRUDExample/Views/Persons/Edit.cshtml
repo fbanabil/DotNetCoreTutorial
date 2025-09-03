@@ -3,11 +3,31 @@
     ViewBag.Title = "Edit Person";
 }
 
-<a asp-controller="Persons" asp-action="Index" class="link-hover">Back to Persons</a>
+<div class="flex">
+    <div class="flex-1">
+        <div class="text-grey">
+            <span>Contacts</span>
 
-<h2>Edit Person</h2>
+            <i class="fa-solid fa-caret-right"></i>
 
-<div class="w-50">
+            <span>Persons</span>
+
+            <i class="fa-solid fa-caret-right"></i>
+
+            <span>Edit</span>
+        </div>
+    </div>
+</div>
+<!--End of Bread Crum-->
+
+
+
+
+<div class="form-container">
+
+    <a asp-controller="Persons" asp-action="Index" class="link-hover">Back to Persons</a>
+
+    <h2 class="text-large">Edit Person</h2>
 
     <form asp-controller="Persons" asp-action="Edit" asp-route-personId="@null" method="post">
 

@@ -5,130 +5,149 @@
 
 <form asp-controller="Persons" asp-action="Index" method="get">
 
-    <h1>Persons</h1>
-    <a asp-controller="Persons" asp-action="Create" >Create Person</a>
-    <br />
+    <!--Bread Crum-->
 
-    <a asp-controller="Persons" asp-action="PersonsPDF" >Download as PDF</a>
-    ---
-    <a asp-controller="Persons" asp-action="PersonsCSV">Download as CSV</a>
-    ---   
-    <a asp-controller="Persons" asp-action="PersonsExcel">Download as Excel</a>
-    
-    <div class="box flex">
-
+    <div class="flex">
         <div class="flex-1">
-            <select class="form-input" name="searchBy">
-                @foreach (var fields in ViewBag.SearchFields)
-                {
-                    if (fields.Key == ViewBag.searchBy)
-                    {
-                        <option value="@fields.Key" selected>@fields.Value</option>
-                        continue;
-                    }
-                    <option value="@fields.Key">@fields.Value</option>
-                }
-            </select>
-        </div>
+            <div class="text-grey">
+                <span>Contacts</span>
 
-        <div class="flex-1">
-            <input type="text" class="form-input" placeholder="Search" name="searchString" value=@ViewBag.searchString />
-        </div>
-        @* searchBy=option?searchString=XXX *@
-        <div class="flex-1">
-            <button class="button button-blue-back" id="search">Search</button>
-            <a asp-controller="Persons" asp-action="Index" class="link-hover">Clear all</a>
-        </div>
+                <i class="fa-solid fa-caret-right"></i>
 
+                <span>Persons</span>
+            </div>
+        </div>
+    </div>
+    <!--End of Bread Crum-->
+
+    <div class="flex-1 text-right">
+        <a asp-controller="Persons" asp-action="Create" class="button-link button-blue-back">Create Person</a>
+
+
+        <a asp-controller="Persons" asp-action="PersonsPDF" class="button-link button-blue-back ml">Download as PDF</a>
+
+        <a asp-controller="Persons" asp-action="PersonsCSV" class="button-link button-blue-back ml">Download as CSV</a>
+
+        <a asp-controller="Persons" asp-action="PersonsExcel" class="button-link button-blue-back ml">Download as Excel</a>
     </div>
 
-    <table class="table w-100 mt persons">
-        <thead>
-            <tr>
+   
+    
+    <div class="table-container">
+        <div class="flex">
+            <div class="flex-1">
+                <h1>Persons</h1>
+            </div>
 
-                @await Html.PartialAsync("_GridColumnHeader",
-                new ViewDataDictionary(ViewData)
-                                {
-                                {"ColumnName",nameof(PersonResponse.PersonName)},
-                                {"DisplayName" ,"Person Name"}
-                                })
+            <div class="flex-3 text-right" >
+                <label> Search By:</label>
+                <select class="search-dropdown" name="searchBy" style="width:200px">
+                    @foreach (var fields in ViewBag.SearchFields)
+                    {
+                        if (fields.Key == ViewBag.searchBy)
+                        {
+                            <option value="@fields.Key" selected>@fields.Value</option>
+                            continue;
+                        }
+                        <option value="@fields.Key">@fields.Value</option>
+                    }
+                </select>
 
-                @await Html.PartialAsync("_GridColumnHeader",
-                                new ViewDataDictionary(ViewData)
-                                {
-                                {"ColumnName",nameof(PersonResponse.Email)},
-                                {"DisplayName" ,"Email"}
-                                })
 
-                @await Html.PartialAsync("_GridColumnHeader",
-                                new ViewDataDictionary(ViewData)
-                                {
-                                {"ColumnName",nameof(PersonResponse.DateOfBirth)},
-                                {"DisplayName" ,"Date of Birth"}
-                                })
+                <input type="text" class="search-text" placeholder="Search" name="searchString" value=@ViewBag.searchString style="width:200px" />
 
-                @await Html.PartialAsync("_GridColumnHeader",
-                                new ViewDataDictionary(ViewData)
-                                {
-                                {"ColumnName",nameof(PersonResponse.Age)},
-                                {"DisplayName" ,"Age"}
-                                })
+                <button class="search-button" id="search">Search</button>
+                <a asp-controller="Persons" asp-action="Index" class="ml link-hover">Clear all</a>
+            </div>
 
-                @await Html.PartialAsync("_GridColumnHeader",
-                                new ViewDataDictionary(ViewData)
-                                {
-                                {"ColumnName",nameof(PersonResponse.Gender)},
-                                {"DisplayName" ,"Gender"}
-                                })
+        </div>
 
-                @await Html.PartialAsync("_GridColumnHeader",
-                                new ViewDataDictionary(ViewData)
-                                {
-                                {"ColumnName",nameof(PersonResponse.Country)},
-                                {"DisplayName" ,"Country"}
-                                })
 
-                @await Html.PartialAsync("_GridColumnHeader",
-                                new ViewDataDictionary(ViewData)
-                                {
-                                {"ColumnName",nameof(PersonResponse.Address)},
-                                {"DisplayName" ,"Address"}
-                                })
-
-                @await Html.PartialAsync("_GridColumnHeader",
-                                new ViewDataDictionary(ViewData)
-                                {
-                                {"ColumnName",nameof(PersonResponse.RecieveNewsLetters)},
-                                {"DisplayName" ,"Recieve News Letters"}
-                                })
-                
-                <th>Options</th>
-
-                <th>Delete</th>
-
-            </tr>
-        </thead>
-
-        <tbody>
-            @foreach (PersonResponse personResponse in Model)
-            {
+        <table class="table w-100 mt persons">
+            <thead>
                 <tr>
-                    <td style="width:15%">@personResponse.PersonName</td>
-                    <td style="width:20%">@personResponse.Email</td>
-                    <td style="width:13%">@personResponse.DateOfBirth?.ToString("dd MMM yyyy")</td>
-                    <td style="width:9%">@personResponse.Age</td>
-                    <td style="width:9%">@personResponse.Gender</td>
-                    <td style="width:10%">@personResponse.Country</td>
-                    <td style="width:10%">@personResponse.Address</td>
-                    <td style="width:20%">@personResponse.RecieveNewsLetters</td>
-                    <td style="width:20%">
-                        <a asp-controller="Persons" asp-action="Edit" asp-route-personId="@personResponse.PersonId">Edit</a>
-                    </td>
-                    <td style="width:20%">
-                        <a asp-controller="Persons" asp-action="Delete" asp-route-personId="@personResponse.PersonId">Delete</a>
-                    </td>
+
+                    @await Html.PartialAsync("_GridColumnHeader",
+                    new ViewDataDictionary(ViewData)
+                                        {
+                                        {"ColumnName",nameof(PersonResponse.PersonName)},
+                                        {"DisplayName" ,"Person Name"}
+                                        })
+
+                    @await Html.PartialAsync("_GridColumnHeader",
+                                        new ViewDataDictionary(ViewData)
+                                        {
+                                        {"ColumnName",nameof(PersonResponse.Email)},
+                                        {"DisplayName" ,"Email"}
+                                        })
+
+                    @await Html.PartialAsync("_GridColumnHeader",
+                                        new ViewDataDictionary(ViewData)
+                                        {
+                                        {"ColumnName",nameof(PersonResponse.DateOfBirth)},
+                                        {"DisplayName" ,"Date of Birth"}
+                                        })
+
+                    @await Html.PartialAsync("_GridColumnHeader",
+                                        new ViewDataDictionary(ViewData)
+                                        {
+                                        {"ColumnName",nameof(PersonResponse.Age)},
+                                        {"DisplayName" ,"Age"}
+                                        })
+
+                    @await Html.PartialAsync("_GridColumnHeader",
+                                        new ViewDataDictionary(ViewData)
+                                        {
+                                        {"ColumnName",nameof(PersonResponse.Gender)},
+                                        {"DisplayName" ,"Gender"}
+                                        })
+
+                    @await Html.PartialAsync("_GridColumnHeader",
+                                        new ViewDataDictionary(ViewData)
+                                        {
+                                        {"ColumnName",nameof(PersonResponse.Country)},
+                                        {"DisplayName" ,"Country"}
+                                        })
+
+                    @await Html.PartialAsync("_GridColumnHeader",
+                                        new ViewDataDictionary(ViewData)
+                                        {
+                                        {"ColumnName",nameof(PersonResponse.Address)},
+                                        {"DisplayName" ,"Address"}
+                                        })
+
+                    @await Html.PartialAsync("_GridColumnHeader",
+                                        new ViewDataDictionary(ViewData)
+                                        {
+                                        {"ColumnName",nameof(PersonResponse.RecieveNewsLetters)},
+                                        {"DisplayName" ,"Recieve News Letters"}
+                                        })
+
+                    <th>Options</th>
+
                 </tr>
-            }
-        </tbody>
-    </table>
+            </thead>
+
+            <tbody>
+                @foreach (PersonResponse personResponse in Model)
+                {
+                    <tr>
+                        <td style="width:14%">@personResponse.PersonName</td>
+                        <td style="width:14%">@personResponse.Email</td>
+                        <td style="width:9%">@personResponse.DateOfBirth?.ToString("dd MMM yyyy")</td>
+                        <td style="width:6%">@personResponse.Age</td>
+                        <td style="width:6%">@personResponse.Gender</td>
+                        <td style="width:12%">@personResponse.Country</td>
+                        <td style="width:20%">@personResponse.Address</td>
+                        <td style="width:8%">@personResponse.RecieveNewsLetters</td>
+                        <td style="width:160%" class="flex">
+                            <a asp-controller="Persons" asp-action="Edit" asp-route-personId="@personResponse.PersonId" class="button-link button-blue-back">Edit</a>
+                            <a asp-controller="Persons" asp-action="Delete" asp-route-personId="@personResponse.PersonId" class="button-link button-red-back">Delete</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+    </div>
 </form>

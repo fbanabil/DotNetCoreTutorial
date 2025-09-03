@@ -9,29 +9,63 @@
 </head>
 <body>
     <div class="container">
-
-        <div class="navbar">
-
-            <div class="navbar-brand">
-                <img src="~/logo.png" width="80px" asp-append-version="true" />    
-            </div>
-            
-            <ul>
-                <li>
-                    <a asp-controller="Persons" asp-action="Index" ><span><h2>Person</h2></span></a>
-                </li>
-                <li>
-                    <a asp-controller="Countries" asp-action="UploadFromExcel"><span><h2>Upload Countries</h2></span></a>
-                </li>
-            
-            </ul>
-        </div>
-
         <div class="page-content">
-            @RenderBody()
-        </div>
 
+            <div class="margin-bottom">
+                <div class="flex" id="top-bar-div">
+
+                    <div class="flex-1 flex" id="app-title-div">
+                            <i class="fa-solid fa-people-simple"></i>
+                        <div><img src="~/logo.png" style="width:70px" /></div>
+
+                        <div>
+                            <h1>
+                                <span style="margin-top : 40px">Contact Manager</span>
+                            </h1>
+                        </div>
+                        
+
+                    </div>
+
+                    <div class="flex-2" id="search-box-div">
+                        <div class="navbar account-links">
+
+                            <ul>
+                                <li>
+                                    <a asp-controller="Account" asp-action="Register">Register</a>
+                                </li>
+                                <li>
+                                    <a asp-controller="Account" asp-action="Login"><span>Login</span></a>
+                                </li>
+
+                            </ul>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="navbar mb">
+
+                <ul>
+                    <li>
+                        <a asp-controller="Persons" asp-action="Index"><span><h2>Person</h2></span></a>
+                    </li>
+                    <li>
+                        <a asp-controller="Countries" asp-action="UploadFromExcel"><span><h2>Upload Countries</h2></span></a>
+                    </li>
+
+                </ul>
+            </div>
+
+            
+
+            <div class="body">
+                @RenderBody()
+            </div>
+        </div>
     </div>
-    @RenderSection("scripts",required:false)
+    @RenderSection("scripts", required: false)
+
 </body>
 </html>
