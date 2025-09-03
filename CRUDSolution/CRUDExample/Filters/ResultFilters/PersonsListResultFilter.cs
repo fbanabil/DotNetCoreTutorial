@@ -15,11 +15,15 @@ namespace CRUDExample.Filters.ResultFilters
         {
             _logger.LogInformation("{FilterName}.{MethodName}: Before executing the resource", nameof(PersonsListResultFilter), nameof(OnResourceExecutionAsync));
 
-            await next();
+            var executedContext = await next();
 
             _logger.LogInformation("{FilterName}.{MethodName}: After executing the resource", nameof(PersonsListResultFilter), nameof(OnResourceExecutionAsync));
 
-            context.HttpContext.Response.Headers["Last-Modified"] = DateTime.UtcNow.ToString("R");
+            // Only set header if response hasn't started
+            if (!executedContext.HttpContext.Response.HasStarted)
+            {
+                executedContext.HttpContext.Response.Headers["Last-Modified"] = DateTime.Now.ToString();
+            }
 
         }
     }

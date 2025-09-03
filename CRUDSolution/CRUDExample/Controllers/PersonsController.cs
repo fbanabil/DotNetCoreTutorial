@@ -1,4 +1,7 @@
 ﻿using CRUDExample.Filters.ActionFilters;
+using CRUDExample.Filters.AuthorizationFilter;
+using CRUDExample.Filters.ExeptionFilters;
+using CRUDExample.Filters.ResourceFilter;
 using CRUDExample.Filters.ResultFilters;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -7,6 +10,7 @@ using ServiceContracts;
 using ServiceContracts.DTO;
 using ServiceContracts.Enums;
 using System.Linq;
+using System.Reflection;
 using System.Security;
 using System.Threading.Tasks;
 
@@ -14,6 +18,7 @@ namespace CRUDExample.Controllers
 {
     [Route("[controller]")]
     [TypeFilter(typeof(ResponseHeaderActionFilter), Arguments = new object[] { "X-Custom-Key-From-Action", "Custom-Value" ,3},Order = 3)]
+    [TypeFilter(typeof(HandleExceptionFilter))]
     public class PersonsController : Controller
     {
 
@@ -98,6 +103,7 @@ namespace CRUDExample.Controllers
         [Route("[action]")]
         [HttpPost]
         [TypeFilter(typeof(PersonCreatAndEditPostActionFilter))]
+        [TypeFilter(typeof(FeatureDisabledResourceFilter),Arguments = new object[] {false})]
         public async Task<IActionResult> Create(PersonAddRequest personRequest)
         {
             PersonResponse personResponse = await _personsService.AddPerson(personRequest);
@@ -108,6 +114,7 @@ namespace CRUDExample.Controllers
 
         [HttpGet]
         [Route("[action]/{personId}")]
+        [TypeFilter(typeof(TokenResultFilter))]
         public async Task<IActionResult> Edit(Guid? personId)
         {
             if (personId == null)
@@ -142,6 +149,7 @@ namespace CRUDExample.Controllers
         [HttpPost]
         [Route("[action]")]
         [TypeFilter(typeof(PersonCreatAndEditPostActionFilter))]
+        [TypeFilter(typeof(TokenAuthorizationFilter))]
         public async Task<IActionResult> Edit(PersonUpdateRequest personRequest)
         {
 

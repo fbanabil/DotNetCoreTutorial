@@ -1,0 +1,173 @@
+2025-09-03 14:29:08.213 +06:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-09-03 14:29:08.221 +06:00 [INF] Hosting environment: Development
+2025-09-03 14:29:08.224 +06:00 [INF] Content root path: F:\ASPNETCORE\CRUDSolution\CRUDExample
+2025-09-03 14:29:10.486 +06:00 [ERR] Connection id "0HNFAOFPP2L3U", Request id "0HNFAOFPP2L3U:00000001": An unhandled exception was thrown by the application.
+System.InvalidOperationException: Headers are read-only, response has already started.
+   at Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http.HttpHeaders.ThrowHeadersReadOnlyException()
+   at Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http.HttpHeaders.Microsoft.AspNetCore.Http.IHeaderDictionary.set_Item(String key, StringValues value)
+   at CRUDExample.Filters.ResultFilters.PersonsListResultFilter.OnResourceExecutionAsync(ResourceExecutingContext context, ResourceExecutionDelegate next) in F:\ASPNETCORE\CRUDSolution\CRUDExample\Filters\ResultFilters\PersonsListResultFilter.cs:line 22
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeNextResourceFilter>g__Awaited|25_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Rethrow(ResourceExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|7_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at Microsoft.AspNetCore.HttpLogging.HttpLoggingMiddleware.InvokeInternal(HttpContext context, HttpLoggingOptions options, HttpLoggingAttribute loggingAttribute, HttpLoggingFields loggingFields)
+   at Microsoft.AspNetCore.HttpLogging.HttpLoggingMiddleware.InvokeInternal(HttpContext context, HttpLoggingOptions options, HttpLoggingAttribute loggingAttribute, HttpLoggingFields loggingFields)
+   at Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddlewareImpl.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddlewareImpl.Invoke(HttpContext context)
+   at Serilog.AspNetCore.RequestLoggingMiddleware.Invoke(HttpContext httpContext)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddlewareImpl.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddlewareImpl.Invoke(HttpContext context)
+   at Microsoft.WebTools.BrowserLink.Net.BrowserLinkMiddleware.InvokeAsync(HttpContext context)
+   at Microsoft.AspNetCore.Watch.BrowserRefresh.BrowserRefreshMiddleware.InvokeAsync(HttpContext context)
+   at Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http.HttpProtocol.ProcessRequests[TContext](IHttpApplication`1 application)
+2025-09-03 14:29:24.360 +06:00 [ERR] Connection id "0HNFAOFPP2L43", Request id "0HNFAOFPP2L43:00000001": An unhandled exception was thrown by the application.
+System.InvalidOperationException: Headers are read-only, response has already started.
+   at Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http.HttpHeaders.ThrowHeadersReadOnlyException()
+   at Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http.HttpHeaders.Microsoft.AspNetCore.Http.IHeaderDictionary.set_Item(String key, StringValues value)
+   at CRUDExample.Filters.ResultFilters.PersonsListResultFilter.OnResourceExecutionAsync(ResourceExecutingContext context, ResourceExecutionDelegate next) in F:\ASPNETCORE\CRUDSolution\CRUDExample\Filters\ResultFilters\PersonsListResultFilter.cs:line 22
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeNextResourceFilter>g__Awaited|25_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Rethrow(ResourceExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|7_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at Microsoft.AspNetCore.HttpLogging.HttpLoggingMiddleware.InvokeInternal(HttpContext context, HttpLoggingOptions options, HttpLoggingAttribute loggingAttribute, HttpLoggingFields loggingFields)
+   at Microsoft.AspNetCore.HttpLogging.HttpLoggingMiddleware.InvokeInternal(HttpContext context, HttpLoggingOptions options, HttpLoggingAttribute loggingAttribute, HttpLoggingFields loggingFields)
+   at Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddlewareImpl.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddlewareImpl.Invoke(HttpContext context)
+   at Serilog.AspNetCore.RequestLoggingMiddleware.Invoke(HttpContext httpContext)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddlewareImpl.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddlewareImpl.Invoke(HttpContext context)
+   at Microsoft.WebTools.BrowserLink.Net.BrowserLinkMiddleware.InvokeAsync(HttpContext context)
+   at Microsoft.AspNetCore.Watch.BrowserRefresh.BrowserRefreshMiddleware.InvokeAsync(HttpContext context)
+   at Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http.HttpProtocol.ProcessRequests[TContext](IHttpApplication`1 application)
+2025-09-03 14:30:40.228 +06:00 [INF] User profile is available. Using 'C:\Users\ASUS\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2025-09-03 14:30:40.402 +06:00 [INF] Now listening on: http://localhost:5269
+2025-09-03 14:30:40.763 +06:00 [INF] Request starting HTTP/1.1 GET http://localhost:5269/ - null null
+2025-09-03 14:30:40.957 +06:00 [INF] Executing endpoint 'CRUDExample.Controllers.PersonsController.Index (CRUDExample)'
+2025-09-03 14:30:41.065 +06:00 [INF] Route matched with {action = "Index", controller = "Persons"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Index(System.String, System.String, System.String, ServiceContracts.Enums.SortOrderOptions) on controller CRUDExample.Controllers.PersonsController (CRUDExample).
+2025-09-03 14:30:41.070 +06:00 [INF] PersonsListResultFilter.OnResourceExecutionAsync: Before executing the resource
+2025-09-03 14:30:41.258 +06:00 [INF] ResponseHeaderActionFilter.OnActionExecutionAsync: Before executing the action method
+2025-09-03 14:30:41.260 +06:00 [INF] ResponseHeaderActionFilter.OnActionExecutionAsync: Before executing the action method
+2025-09-03 14:30:41.262 +06:00 [INF] ResponseHeaderActionFilter.OnActionExecutionAsync: Before executing the action method
+2025-09-03 14:30:41.265 +06:00 [INF] PersonsListActionFilter.OnActionExecuting: After executing the action method
+2025-09-03 14:30:41.277 +06:00 [INF] Index action method of PersonsController called
+2025-09-03 14:30:41.327 +06:00 [INF] GetFilteredPerson method of PersonsService called
+2025-09-03 14:30:41.329 +06:00 [INF] GetAllPersons method of PersonsService called
+2025-09-03 14:30:41.332 +06:00 [INF] GetAllPersons in PersonsRepository
+2025-09-03 14:30:42.418 +06:00 [INF] Executed DbCommand (21ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [p].[PersonId], [p].[Address], [p].[CountryID], [p].[DateOfBirth], [p].[Email], [p].[Gender], [p].[PersonName], [p].[RecieveNewsLetters], [p].[TaxIdentificationNumber], [c].[CountryID], [c].[CountryName]
+FROM [Persons] AS [p]
+LEFT JOIN [Countries] AS [c] ON [p].[CountryID] = [c].[CountryID]
+2025-09-03 14:30:42.505 +06:00 [INF] GetSortedPersons method of PersonsService called
+2025-09-03 14:30:42.510 +06:00 [INF] PersonsListActionFilter.OnActionExecuted: After executing the action method
+2025-09-03 14:30:42.512 +06:00 [INF] ResponseHeaderActionFilter.OnActionExecutionAsync: After executing the action method
+2025-09-03 14:30:42.514 +06:00 [INF] ResponseHeaderActionFilter.OnActionExecutionAsync: After executing the action method
+2025-09-03 14:30:42.515 +06:00 [INF] ResponseHeaderActionFilter.OnActionExecutionAsync: After executing the action method
+2025-09-03 14:30:42.527 +06:00 [INF] Executing ViewResult, running view Index.
+2025-09-03 14:30:42.681 +06:00 [INF] Executed ViewResult - view Index executed in 158.1594ms.
+2025-09-03 14:30:42.686 +06:00 [INF] PersonsListResultFilter.OnResourceExecutionAsync: After executing the resource
+2025-09-03 14:30:42.689 +06:00 [INF] Executed action CRUDExample.Controllers.PersonsController.Index (CRUDExample) in 1621.3826ms
+2025-09-03 14:30:42.692 +06:00 [INF] Executed endpoint 'CRUDExample.Controllers.PersonsController.Index (CRUDExample)'
+2025-09-03 14:30:42.696 +06:00 [INF] Response:
+StatusCode: 200
+Content-Type: text/html; charset=utf-8
+Date: Wed, 03 Sep 2025 08:30:42 GMT
+Server: Kestrel
+Transfer-Encoding: chunked
+X-Custom-Key-From-Action: [Redacted]
+My-Key-Global: [Redacted]
+X-Custom-Key: [Redacted]
+2025-09-03 14:30:42.700 +06:00 [INF] HTTP GET / responded 200 in 1783.0968 ms
+2025-09-03 14:30:42.713 +06:00 [INF] Request finished HTTP/1.1 GET http://localhost:5269/ - 200 null text/html; charset=utf-8 1974.266ms
+2025-09-03 14:30:42.724 +06:00 [INF] Request starting HTTP/1.1 GET http://localhost:5269/_framework/aspnetcore-browser-refresh.js - null null
+2025-09-03 14:30:42.724 +06:00 [INF] Request starting HTTP/1.1 GET http://localhost:5269/StyleSheet.css - null null
+2025-09-03 14:30:42.724 +06:00 [INF] Request starting HTTP/1.1 GET http://localhost:5269/_vs/browserLink - null null
+2025-09-03 14:30:42.724 +06:00 [INF] Request starting HTTP/1.1 GET http://localhost:5269/logo.png?v=UX1BKVt3pXXf-Mke3VNI8cl45Hn-MEsEw3AUn10Or40 - null null
+2025-09-03 14:30:42.735 +06:00 [INF] Request finished HTTP/1.1 GET http://localhost:5269/_framework/aspnetcore-browser-refresh.js - 200 16507 application/javascript; charset=utf-8 15.1038ms
+2025-09-03 14:30:42.759 +06:00 [INF] Sending file. Request path: '/StyleSheet.css'. Physical path: 'F:\ASPNETCORE\CRUDSolution\CRUDExample\wwwroot\StyleSheet.css'
+2025-09-03 14:30:42.763 +06:00 [INF] Response:
+StatusCode: 200
+Content-Type: text/css
+Date: Wed, 03 Sep 2025 08:30:42 GMT
+Server: Kestrel
+Accept-Ranges: bytes
+ETag: [Redacted]
+Last-Modified: Sun, 24 Aug 2025 18:54:51 GMT
+Content-Length: 5909
+2025-09-03 14:30:42.764 +06:00 [INF] HTTP GET /StyleSheet.css responded 200 in 28.9453 ms
+2025-09-03 14:30:42.766 +06:00 [INF] Sending file. Request path: '/logo.png'. Physical path: 'F:\ASPNETCORE\CRUDSolution\CRUDExample\wwwroot\logo.png'
+2025-09-03 14:30:42.768 +06:00 [INF] Request finished HTTP/1.1 GET http://localhost:5269/StyleSheet.css - 200 5909 text/css 45.9382ms
+2025-09-03 14:30:42.769 +06:00 [INF] Response:
+StatusCode: 200
+Content-Type: image/png
+Date: Wed, 03 Sep 2025 08:30:42 GMT
+Server: Kestrel
+Accept-Ranges: bytes
+ETag: [Redacted]
+Last-Modified: Sun, 24 Aug 2025 18:42:38 GMT
+Content-Length: 28312
+2025-09-03 14:30:42.773 +06:00 [INF] HTTP GET /logo.png responded 200 in 30.3673 ms
+2025-09-03 14:30:42.776 +06:00 [INF] Request finished HTTP/1.1 GET http://localhost:5269/logo.png?v=UX1BKVt3pXXf-Mke3VNI8cl45Hn-MEsEw3AUn10Or40 - 200 28312 image/png 56.6063ms
+2025-09-03 14:30:42.784 +06:00 [INF] Request finished HTTP/1.1 GET http://localhost:5269/_vs/browserLink - 200 null text/javascript; charset=UTF-8 60.0927ms
+2025-09-03 14:31:00.865 +06:00 [INF] Request starting HTTP/1.1 GET http://localhost:5269/favicon.ico - null null
+2025-09-03 14:31:00.875 +06:00 [INF] Response:
+StatusCode: 404
+2025-09-03 14:31:00.875 +06:00 [INF] HTTP GET /favicon.ico responded 404 in 4.7404 ms
+2025-09-03 14:31:00.879 +06:00 [INF] Request finished HTTP/1.1 GET http://localhost:5269/favicon.ico - 404 0 null 13.6246ms
+2025-09-03 14:31:00.883 +06:00 [INF] Request reached the end of the middleware pipeline without being handled by application code. Request path: GET http://localhost:5269/favicon.ico, Response status code: 404
+2025-09-03 14:31:02.486 +06:00 [INF] Request starting HTTP/1.1 GET http://localhost:5269/Persons/Index - null null
+2025-09-03 14:31:02.495 +06:00 [INF] Executing endpoint 'CRUDExample.Controllers.PersonsController.Index (CRUDExample)'
+2025-09-03 14:31:02.501 +06:00 [INF] Route matched with {action = "Index", controller = "Persons"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Index(System.String, System.String, System.String, ServiceContracts.Enums.SortOrderOptions) on controller CRUDExample.Controllers.PersonsController (CRUDExample).
+2025-09-03 14:31:02.504 +06:00 [INF] PersonsListResultFilter.OnResourceExecutionAsync: Before executing the resource
+2025-09-03 14:31:02.507 +06:00 [INF] ResponseHeaderActionFilter.OnActionExecutionAsync: Before executing the action method
+2025-09-03 14:31:02.508 +06:00 [INF] ResponseHeaderActionFilter.OnActionExecutionAsync: Before executing the action method
+2025-09-03 14:31:02.510 +06:00 [INF] ResponseHeaderActionFilter.OnActionExecutionAsync: Before executing the action method
+2025-09-03 14:31:02.512 +06:00 [INF] PersonsListActionFilter.OnActionExecuting: After executing the action method
+2025-09-03 14:31:02.512 +06:00 [INF] Index action method of PersonsController called
+2025-09-03 14:31:02.513 +06:00 [INF] GetFilteredPerson method of PersonsService called
+2025-09-03 14:31:02.514 +06:00 [INF] GetAllPersons method of PersonsService called
+2025-09-03 14:31:02.515 +06:00 [INF] GetAllPersons in PersonsRepository
+2025-09-03 14:31:02.532 +06:00 [INF] Executed DbCommand (2ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [p].[PersonId], [p].[Address], [p].[CountryID], [p].[DateOfBirth], [p].[Email], [p].[Gender], [p].[PersonName], [p].[RecieveNewsLetters], [p].[TaxIdentificationNumber], [c].[CountryID], [c].[CountryName]
+FROM [Persons] AS [p]
+LEFT JOIN [Countries] AS [c] ON [p].[CountryID] = [c].[CountryID]
+2025-09-03 14:31:02.537 +06:00 [INF] GetSortedPersons method of PersonsService called
+2025-09-03 14:31:02.539 +06:00 [INF] PersonsListActionFilter.OnActionExecuted: After executing the action method
+2025-09-03 14:31:02.540 +06:00 [INF] ResponseHeaderActionFilter.OnActionExecutionAsync: After executing the action method
+2025-09-03 14:31:02.541 +06:00 [INF] ResponseHeaderActionFilter.OnActionExecutionAsync: After executing the action method
+2025-09-03 14:31:02.542 +06:00 [INF] ResponseHeaderActionFilter.OnActionExecutionAsync: After executing the action method
+2025-09-03 14:31:02.544 +06:00 [INF] Executing ViewResult, running view Index.
+2025-09-03 14:31:02.550 +06:00 [INF] Executed ViewResult - view Index executed in 6.3054ms.
+2025-09-03 14:31:02.553 +06:00 [INF] PersonsListResultFilter.OnResourceExecutionAsync: After executing the resource
+2025-09-03 14:31:02.555 +06:00 [INF] Executed action CRUDExample.Controllers.PersonsController.Index (CRUDExample) in 52.4541ms
+2025-09-03 14:31:02.557 +06:00 [INF] Executed endpoint 'CRUDExample.Controllers.PersonsController.Index (CRUDExample)'
+2025-09-03 14:31:02.559 +06:00 [INF] Response:
+StatusCode: 200
+Content-Type: text/html; charset=utf-8
+Date: Wed, 03 Sep 2025 08:31:02 GMT
+Server: Kestrel
+Transfer-Encoding: chunked
+X-Custom-Key-From-Action: [Redacted]
+My-Key-Global: [Redacted]
+X-Custom-Key: [Redacted]
+2025-09-03 14:31:02.560 +06:00 [INF] HTTP GET /Persons/Index responded 200 in 66.3648 ms
+2025-09-03 14:31:02.564 +06:00 [INF] Request finished HTTP/1.1 GET http://localhost:5269/Persons/Index - 200 null text/html; charset=utf-8 77.7107ms
+2025-09-03 14:31:02.574 +06:00 [INF] Request starting HTTP/1.1 GET http://localhost:5269/.well-known/appspecific/com.chrome.devtools.json - null null
+2025-09-03 14:31:02.574 +06:00 [INF] Request starting HTTP/1.1 GET http://localhost:5269/_vs/browserLink - null null
+2025-09-03 14:31:02.578 +06:00 [INF] Response:
+StatusCode: 404
+2025-09-03 14:31:02.579 +06:00 [INF] Request starting HTTP/1.1 GET http://localhost:5269/_framework/aspnetcore-browser-refresh.js - null null
+2025-09-03 14:31:02.581 +06:00 [INF] HTTP GET /.well-known/appspecific/com.chrome.devtools.json responded 404 in 3.9616 ms
+2025-09-03 14:31:02.586 +06:00 [INF] Request finished HTTP/1.1 GET http://localhost:5269/_framework/aspnetcore-browser-refresh.js - 200 16507 application/javascript; charset=utf-8 7.2286ms
+2025-09-03 14:31:02.589 +06:00 [INF] Request finished HTTP/1.1 GET http://localhost:5269/.well-known/appspecific/com.chrome.devtools.json - 404 0 null 14.818ms
+2025-09-03 14:31:02.599 +06:00 [INF] Request reached the end of the middleware pipeline without being handled by application code. Request path: GET http://localhost:5269/.well-known/appspecific/com.chrome.devtools.json, Response status code: 404
+2025-09-03 14:31:02.612 +06:00 [INF] Request finished HTTP/1.1 GET http://localhost:5269/_vs/browserLink - 200 null text/javascript; charset=UTF-8 37.65ms
