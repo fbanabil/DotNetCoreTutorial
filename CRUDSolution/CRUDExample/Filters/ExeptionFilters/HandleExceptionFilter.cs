@@ -7,18 +7,18 @@ namespace CRUDExample.Filters.ExeptionFilters
     public class HandleExceptionFilter : IExceptionFilter
     {
         private readonly ILogger<HandleExceptionFilter> _logger;
-        private readonly IHostEnvironment _service;
+        private readonly IHostEnvironment _serviceEnviroment;
 
         public HandleExceptionFilter(ILogger<HandleExceptionFilter> logger, IHostEnvironment service)
         {
             _logger = logger;
-            _service = service;
+            _serviceEnviroment = service;
         }
         public void OnException(ExceptionContext context)
         {
             _logger.LogError(context.Exception, "{FilterName}.{MethodName}: Exception occurred: {ExceptionMessage}", nameof(HandleExceptionFilter), nameof(OnException), context.Exception.Message);
 
-            if (_service.IsDevelopment())
+            if (_serviceEnviroment.IsDevelopment())
             {
                 context.Result = new ContentResult()
                 {
