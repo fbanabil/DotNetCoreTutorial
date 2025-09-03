@@ -1,4 +1,5 @@
-﻿using CRUDExample.Filters.ActionFilters;
+﻿using CRUDExample.Filters;
+using CRUDExample.Filters.ActionFilters;
 using CRUDExample.Filters.AuthorizationFilter;
 using CRUDExample.Filters.ExeptionFilters;
 using CRUDExample.Filters.ResourceFilter;
@@ -17,9 +18,10 @@ using System.Threading.Tasks;
 namespace CRUDExample.Controllers
 {
     [Route("[controller]")]
-    [TypeFilter(typeof(ResponseHeaderActionFilter), Arguments = new object[] { "X-Custom-Key-From-Action", "Custom-Value" ,3},Order = 3)]
+    [ResponseHeaderActionFilter("X-Custom-Key-From-Action", "Custom-Value",3)]
     [TypeFilter(typeof(HandleExceptionFilter))]
     [TypeFilter(typeof(PersonsAlwaysRunResultFilter))]
+
     public class PersonsController : Controller
     {
 
@@ -41,6 +43,7 @@ namespace CRUDExample.Controllers
         [TypeFilter(typeof(PersonsListActionFilter),Order = 4)]
         [TypeFilter(typeof(ResponseHeaderActionFilter), Arguments = new object[] { "X-Custom-Key", "Custom-Value" ,1},Order =1)]
         [TypeFilter(typeof(PersonsListResultFilter))]
+        [SkipFilter]
         public async Task<IActionResult> Index(string searchBy, string? searchString,
             string sortBy = nameof(PersonResponse.PersonName),
             SortOrderOptions sortOrder = SortOrderOptions.ASC)

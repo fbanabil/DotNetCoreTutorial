@@ -1,6 +1,9 @@
-﻿namespace CRUDExample.Filters
+﻿using Microsoft.AspNetCore.Mvc.Filters;
+
+namespace CRUDExample.Filters
 {
-    public class SkipFilter
+    public class SkipFilter : Attribute, IFilterMetadata
     {
+
     }
 }

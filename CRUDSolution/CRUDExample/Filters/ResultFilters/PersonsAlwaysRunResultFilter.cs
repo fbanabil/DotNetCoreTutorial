@@ -22,6 +22,14 @@ namespace CRUDExample.Filters.ResultFilters
         public void OnResultExecuting(ResultExecutingContext context)
         {
             _logger.LogInformation("{FilterName}.{MethodName}: Result executing.", nameof(PersonsAlwaysRunResultFilter), nameof(OnResultExecuting));
+
+            if(context.Filters.OfType<SkipFilter>().Any())
+            {
+                _logger.LogInformation("{FilterName}.{MethodName}: Skipping the filter as SkipFilter is applied.", nameof(PersonsAlwaysRunResultFilter), nameof(OnResultExecuting));
+                
+                return;
+            }
+
         }
     }
 }
