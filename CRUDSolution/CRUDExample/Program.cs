@@ -8,6 +8,7 @@ using Services;
 using Serilog;
 using CRUDExample.Filters.ActionFilters;
 using CRUDExample;
+using CRUDExample.Middleware;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -24,13 +25,21 @@ builder.Services.ConfigureServices(builder);
 
 
 var app = builder.Build();
-app.UseSerilogRequestLogging();
 
-
-if(builder.Environment.IsDevelopment())
+if (builder.Environment.IsDevelopment())
 {
     app.UseDeveloperExceptionPage();
 }
+else
+{
+    app.UseExceptionHandler("/Error");
+    app.UseExceptionHandlingMiddleware();
+}
+
+
+    app.UseSerilogRequestLogging();
+
+
 
 app.UseHttpLogging();
 

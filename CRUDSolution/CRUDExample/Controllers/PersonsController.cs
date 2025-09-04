@@ -22,7 +22,7 @@ namespace CRUDExample.Controllers
 
     [ResponseHeaderFilterFactory("X-Key","x-Value",3)]
 
-    [TypeFilter(typeof(HandleExceptionFilter))]
+    //[TypeFilter(typeof(HandleExceptionFilter))]
     [TypeFilter(typeof(PersonsAlwaysRunResultFilter))]
 
     public class PersonsController : Controller
@@ -167,6 +167,7 @@ namespace CRUDExample.Controllers
                 return RedirectToAction("Index");
             }
 
+            //personRequest.PersonId = new Guid();
 
             PersonResponse updatedPerson = await _personsService.UpdatePerson(personRequest);
             return RedirectToAction("Index");

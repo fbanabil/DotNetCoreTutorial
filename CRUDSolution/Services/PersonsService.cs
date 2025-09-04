@@ -1,6 +1,7 @@
 ﻿using CsvHelper;
 using CsvHelper.Configuration;
 using Entities;
+using Exceptions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using OfficeOpenXml;
@@ -213,7 +214,7 @@ namespace Services
 
             if (personResponse==null)
             {
-                throw new ArgumentException(nameof(personResponse));
+                throw new InvalidPersonIDException("Given PersonID doesn't exist");
             }
 
 
