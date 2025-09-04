@@ -35,7 +35,19 @@ namespace CRUDExample
             services.AddRouting();
 
             services.AddScoped<ICountriesService, CountriesService>();
-            services.AddScoped<IPersonsService, PersonsService>();
+            
+            
+            //services.AddScoped<IPersonsGetterService, PersonsGetterServiceWithFewExelFields>();
+
+            services.AddScoped<IPersonsGetterService, PersonsGetterServiceChild>();
+            services.AddScoped<PersonsGetterService, PersonsGetterService>();
+
+            services.AddScoped<IPersonsAdderService, PersonsAdderService>();
+            services.AddScoped<IPersonsDeleterService, PersonsDeleterService>();
+            services.AddScoped<IPersonsUpdaterService, PersonsUpdaterService>();
+            services.AddScoped<IPersonsSorterService, PersonsSorterService>();
+
+
 
             services.AddScoped<IPersonsRepository, PersonsRepository>();
             services.AddScoped<ICountriesRepository, CountriesRepository>();
@@ -49,9 +61,6 @@ namespace CRUDExample
                     }
                 );
             }
-
-
-            //Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=PersonsDatabase;Integrated Security=True;Connect Timeout=30;Encrypt=False;Trust Server Certificate=False;Application Intent=ReadWrite;Multi Subnet Failover=False
 
             services.AddHttpLogging(logging =>
             {

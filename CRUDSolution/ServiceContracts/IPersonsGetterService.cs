@@ -12,15 +12,8 @@ namespace ServiceContracts
     /// <summary>
     /// Buisness logics for person entity
     /// </summary>
-    public interface IPersonsService
+    public interface IPersonsGetterService
     {
-        /// <summary>
-        /// Adds a Person
-        /// </summary>
-        /// <param name="personAddRequest"></param>
-        /// <returns>Returns PersonResponse class</returns>
-        public Task<PersonResponse> AddPerson(PersonAddRequest? personAddRequest);
-
         /// <summary>
         /// Gets All Persons
         /// </summary>
@@ -43,32 +36,7 @@ namespace ServiceContracts
         /// <returns>List of personResponse</returns>
         public Task<List<PersonResponse>> GetFilteredPerson(string searchBy, string? searchString);
 
-        /// <summary>
-        /// Sorts the list of persons based on the given attribute and order
-        /// </summary>
-        /// <param name="personResponses">All Persons</param>
-        /// <param name="sortBy">Attribute to sort</param>
-        /// <param name="sortOrder">Sort Order</param>
-        /// <returns>List of sorted Person Response</returns>
-        public Task<List<PersonResponse>> GetSortedPersons(List<PersonResponse> personResponses,string sortBy, SortOrderOptions sortOrder);
-
-    
-        /// <summary>
-        /// Update details of person
-        /// </summary>
-        /// <param name="personUpdateRequest">Includes PersonId</param>
-        /// <returns>PersonResponse</returns>
-        public Task<PersonResponse> UpdatePerson(PersonUpdateRequest? personUpdateRequest);
-
-
-        /// <summary>
-        /// Delete a person
-        /// </summary>
-        /// <param name="personId">Guid of PersonId</param>
-        /// <returns>True if deletion successfull else returns fale</returns>
-        public Task<bool> DeletePerson(Guid? personId);
-
-
+        
         /// <summary>
         /// Returns persons as csv
         /// </summary>
