@@ -1,4 +1,7 @@
-﻿using Microsoft.Data.SqlClient;
+﻿using ContactsManager.Core.Domain.IdentityEntities;
+using Microsoft.AspNet.Identity.EntityFramework;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Identity.Client;
@@ -10,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace Entities
 {
-    public class ApplicationDbContext : DbContext
+    public class ApplicationDbContext : IdentityDbContext<ApplicationUser, ApplicationRole, Guid>
     {
         public ApplicationDbContext(DbContextOptions options) : base(options)
         {
