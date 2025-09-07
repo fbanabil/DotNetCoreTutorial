@@ -5,6 +5,9 @@ using Repository;
 using RepositoryContracts;
 using ServiceContracts;
 using Services;
+using ContactsManager.Core.Domain.IdentityEntities;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
 
 namespace ContactsManager.UI
 {
@@ -61,6 +64,15 @@ namespace ContactsManager.UI
                     }
                 );
             }
+
+
+            // Enable Identity in this project
+            services.AddIdentity<ApplicationUser,ApplicationRole>()
+                .AddEntityFrameworkStores<ApplicationDbContext>()
+                .AddDefaultTokenProviders()
+                .AddUserStore<UserStore<ApplicationUser,ApplicationRole,ApplicationDbContext,Guid>>()                
+                .AddRoleStore<RoleStore<ApplicationRole,ApplicationDbContext,Guid>>();
+
 
             services.AddHttpLogging(logging =>
             {
