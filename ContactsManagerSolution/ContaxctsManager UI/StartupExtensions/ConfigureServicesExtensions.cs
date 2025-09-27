@@ -8,6 +8,7 @@ using Services;
 using ContactsManager.Core.Domain.IdentityEntities;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Authorization;
 
 namespace ContactsManager.UI
 {
@@ -67,11 +68,39 @@ namespace ContactsManager.UI
 
 
             // Enable Identity in this project
-            services.AddIdentity<ApplicationUser,ApplicationRole>()
+            services.AddIdentity<ApplicationUser,ApplicationRole>(options=>
+            {
+                options.User.RequireUniqueEmail = true;
+                options.Password.RequiredLength = 8;
+                options.Password.RequireNonAlphanumeric = false;
+                options.Password.RequireUppercase = false;
+                options.Password.RequireLowercase = false;
+                options.Password.RequireDigit = false;
+                //options.SignIn.RequireConfirmedEmail = false;
+                options.Lockout.MaxFailedAccessAttempts = 5;
+                options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(15);
+            })
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders()
                 .AddUserStore<UserStore<ApplicationUser,ApplicationRole,ApplicationDbContext,Guid>>()                
                 .AddRoleStore<RoleStore<ApplicationRole,ApplicationDbContext,Guid>>();
+
+
+
+
+            services.AddAuthorization(options =>
+            {
+                options.FallbackPolicy = new AuthorizationPolicyBuilder().
+                RequireAuthenticatedUser().Build();
+                //options.AddPolicy("AllowAnonymous", policy => policy.RequireAssertion(context => true));
+
+            });
+
+            services.ConfigureApplicationCookie(options =>
+            {
+                options.LoginPath = "/Account/Login";
+            });
+
 
 
             services.AddHttpLogging(logging =>

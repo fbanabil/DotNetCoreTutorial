@@ -15,7 +15,7 @@
                 <div class="flex" id="top-bar-div">
 
                     <div class="flex-1 flex" id="app-title-div">
-                            <i class="fa-solid fa-people-simple"></i>
+                        <i class="fa-solid fa-people-simple"></i>
                         <div><img src="~/logo.png" style="width:70px" /></div>
 
                         <div>
@@ -23,7 +23,7 @@
                                 <span style="margin-top : 40px">Contact Manager</span>
                             </h1>
                         </div>
-                        
+
 
                     </div>
 
@@ -31,12 +31,46 @@
                         <div class="navbar account-links">
 
                             <ul>
-                                <li>
-                                    <a asp-controller="Account" asp-action="Register">Register</a>
-                                </li>
-                                <li>
-                                    <a asp-controller="Account" asp-action="Login"><span>Login</span></a>
-                                </li>
+                                @if (User.Identity != null && User.Identity.IsAuthenticated)
+                                {
+                                    <li>
+                                        <i class="fa-solid fa-user"></i>
+                                        @User.Identity?.Name
+                                    </li>
+                                    <li>
+                                        <a asp-controller="Account" asp-action="Logout">Logout</a>
+                                    </li>
+                                }
+                                else
+                                {
+                                    @if (ViewBag.Title == "Register")
+                                    {
+                                        <li>
+                                            <a asp-controller="Account" asp-action="Register" class="nav-active">Register</a>
+                                        </li>
+                                    }
+                                    else
+                                    {
+                                        <li>
+                                            <a asp-controller="Account" asp-action="Register">Register</a>
+                                        </li>
+                                    }
+
+                                    @if (ViewBag.Title == "Login")
+                                    {
+                                        <li>
+                                            <a asp-controller="Account" asp-action="Login" class="nav-active">Login</a>
+                                        </li>
+                                    }
+                                    else
+                                    {
+                                        <li>
+                                            <a asp-controller="Account" asp-action="Login"><span>Login</span></a>
+                                        </li>
+                                    }
+
+                                }
+
 
                             </ul>
                         </div>
@@ -48,17 +82,37 @@
             <div class="navbar mb">
 
                 <ul>
-                    <li>
-                        <a asp-controller="Persons" asp-action="Index"><span><h2>Person</h2></span></a>
-                    </li>
-                    <li>
-                        <a asp-controller="Countries" asp-action="UploadFromExcel"><span><h2>Upload Countries</h2></span></a>
-                    </li>
+                    @if(ViewBag.Title=="Persons")
+                    {
+                        <li>
+                            <a asp-controller="Persons" asp-action="Index" class="nav-active"><span><h2>Person</h2></span></a>
+                        </li>
+                    }
+                    else
+                    {
+                        <li>
+                            <a asp-controller="Persons" asp-action="Index"><span><h2>Person</h2></span></a>
+                        </li>
+                    }
+
+                    @if (ViewBag.Title == "Upload Countries from Excel")
+                    {
+                        <li>
+                            <a asp-controller="Countries" asp-action="UploadFromExcel" class="nav-active"><span><h2>Upload Countries</h2></span></a>
+                        </li>
+                    }
+                    else
+                    {
+                        <li>
+                            <a asp-controller="Countries" asp-action="UploadFromExcel"><span><h2>Upload Countries</h2></span></a>
+                        </li>
+                    }
+
 
                 </ul>
             </div>
 
-            
+
 
             <div class="body">
                 @RenderBody()
