@@ -1,4 +1,6 @@
-﻿using System;
+﻿using ContactsManager.Core.Enums;
+using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -11,13 +13,14 @@ namespace ContactsManager.Core.DTO
     {
         [Required(ErrorMessage ="Email can't be empty")]
         [EmailAddress(ErrorMessage ="Invalid Email Address")]
+        [Remote(action: "IsEmailAlreadyRegistered", controller:"Account", ErrorMessage = "Email Already Taken")]
         public string? Email { get; set; }
 
         [Required(ErrorMessage = "Person name can't be empty")]
         public string? PersonName { get; set; }
 
         [Required(ErrorMessage = "Phone number can't be empty")]
-        [RegularExpression("^[0-9]*$",ErrorMessage ="PPhone number must contain 0-9")]
+        [RegularExpression("^[0-9]*$",ErrorMessage ="Phone number must contain 0-9")]
         public string? PhoneNumber { get; set; }
 
         [Required(ErrorMessage = "Password can't be empty")]
@@ -28,5 +31,7 @@ namespace ContactsManager.Core.DTO
         [DataType(DataType.Password)]
         [Compare("Password", ErrorMessage = "Password and Confirm Password must be same")]
         public string? ConfirmPassword { get; set; }
+
+        public UserTypesOptions UserTypes{ get; set; }= UserTypesOptions.User;
     }
 }

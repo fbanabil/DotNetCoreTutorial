@@ -1,5 +1,6 @@
 ﻿using ContactsManager.Core.Domain.IdentityEntities;
 using ContactsManager.Core.DTO;
+using ContactsManager.Core.Enums;
 using Controllers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -13,12 +14,15 @@ namespace ContaxctsManager_UI.Controllers
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
+        private readonly RoleManager<ApplicationRole> _roleManager;
 
-        public AccountController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager)
+        public AccountController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, RoleManager<ApplicationRole> roleManager)
         {
             _userManager = userManager;
             _signInManager = signInManager;
+            _roleManager = roleManager;
         }
+
 
         [HttpGet]
         public IActionResult Register()
@@ -51,6 +55,26 @@ namespace ContaxctsManager_UI.Controllers
             if (result.Succeeded)
             {
                 // Sign in the user
+                if(registerDTO.UserTypes==ContactsManager.Core.Enums.UserTypesOptions.Admin)
+                {
+                    if(_roleManager.FindByNameAsync(UserTypesOptions.Admin.ToString()).Result==null)
+                    {
+                        await _roleManager.CreateAsync(new ApplicationRole() { Name = UserTypesOptions.Admin.ToString() });
+                    }
+
+                    await _userManager.AddToRoleAsync(applicationUser, UserTypesOptions.Admin.ToString());
+
+                }
+                else
+                {
+                    if (_roleManager.FindByNameAsync(UserTypesOptions.User.ToString()).Result == null)
+                    {
+                        await _roleManager.CreateAsync(new ApplicationRole() { Name = UserTypesOptions.User.ToString() });
+                    }
+
+                    await _userManager.AddToRoleAsync(applicationUser, UserTypesOptions.User.ToString());
+
+                }
 
                 await _signInManager.SignInAsync(applicationUser, isPersistent: false);
 
@@ -69,6 +93,10 @@ namespace ContaxctsManager_UI.Controllers
             }
         }
 
+
+
+
+
         [HttpGet]
         public IActionResult Login()
         {
@@ -86,6 +114,15 @@ namespace ContaxctsManager_UI.Controllers
             var result = await _signInManager.PasswordSignInAsync(loginDTO.Email, loginDTO.Password, isPersistent: false, lockoutOnFailure: false);
             if (result.Succeeded)
             {
+                ApplicationUser? applicationUser = await _userManager.FindByEmailAsync(loginDTO.Email);
+
+                if (applicationUser != null)
+                {
+                    if(_userManager.IsInRoleAsync(applicationUser,UserTypesOptions.Admin.ToString())!=null)
+                    {
+                        return RedirectToAction("Index", "Home", new { area = "Admin" });
+                    }
+                }
 
                 if (!string.IsNullOrEmpty(ReturnUrl) && Url.IsLocalUrl(ReturnUrl))
                 {
@@ -104,6 +141,18 @@ namespace ContaxctsManager_UI.Controllers
         {
             await _signInManager.SignOutAsync();
             return RedirectToAction(nameof(PersonsController.Index), "Persons");
+        }
+
+
+        public async Task<IActionResult> IsEmailAlreadyRegistered(string email)
+        {
+            ApplicationUser? applicationUser = await _userManager.FindByEmailAsync(email);
+
+            if (applicationUser == null)
+            {
+                return Json(true);
+            }
+            else return Json(false);
         }
     }
 }
