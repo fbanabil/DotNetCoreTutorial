@@ -9,6 +9,7 @@ using ContactsManager.Core.Domain.IdentityEntities;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 
 namespace ContactsManager.UI
 {
@@ -31,6 +32,7 @@ namespace ContactsManager.UI
                     _value = "Global-Value",
                     Order = 2
                 });
+                options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute());
             });
 
 
@@ -93,6 +95,13 @@ namespace ContactsManager.UI
                 options.FallbackPolicy = new AuthorizationPolicyBuilder().
                 RequireAuthenticatedUser().Build();
                 //options.AddPolicy("AllowAnonymous", policy => policy.RequireAssertion(context => true));
+                options.AddPolicy("NotAuthenticated", policy =>
+                {
+                    policy.RequireAssertion(context =>
+                    {
+                        return context.User?.Identity == null || context.User?.Identity?.IsAuthenticated == false;
+                    });
+                });
 
             });
 

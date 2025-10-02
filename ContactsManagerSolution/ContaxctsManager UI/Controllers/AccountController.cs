@@ -9,28 +9,34 @@ using Microsoft.AspNetCore.Mvc;
 namespace ContaxctsManager_UI.Controllers
 {
     [Route("[Controller]/[action]")]
-    [AllowAnonymous]
+    //[AllowAnonymous]
     public class AccountController : Controller
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly RoleManager<ApplicationRole> _roleManager;
+        private readonly ILogger<AccountController> _logger;
 
-        public AccountController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, RoleManager<ApplicationRole> roleManager)
+        public AccountController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, RoleManager<ApplicationRole> roleManager, ILogger<AccountController> logger)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _roleManager = roleManager;
+            _logger = logger;
         }
 
 
         [HttpGet]
+        [Authorize("NotAuthenticated")]
         public IActionResult Register()
         {
             return View();
         }
 
         [HttpPost]
+        [Authorize("NotAuthenticated")]
+        [ValidateAntiForgeryToken]
+
         public async Task<IActionResult> Register(RegisterDTO registerDTO)
         {
 
@@ -98,12 +104,16 @@ namespace ContaxctsManager_UI.Controllers
 
 
         [HttpGet]
+        [Authorize("NotAuthenticated")]
+
         public IActionResult Login()
         {
             return View();
         }
 
         [HttpPost]
+        [Authorize("NotAuthenticated")]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Login(LoginDTO loginDTO, string? ReturnUrl)
         {
             if (ModelState.IsValid == false)
@@ -118,8 +128,11 @@ namespace ContaxctsManager_UI.Controllers
 
                 if (applicationUser != null)
                 {
-                    if(_userManager.IsInRoleAsync(applicationUser,UserTypesOptions.Admin.ToString())!=null)
+                    //bool isAdmin = await _userManager.IsInRoleAsync(applicationUser, UserTypesOptions.Admin.ToString());
+                    if (await _userManager.IsInRoleAsync(applicationUser,UserTypesOptions.Admin.ToString()))
                     {
+                        var userRoles = await _userManager.GetRolesAsync(applicationUser);
+                        _logger.LogInformation("User {Email} logged in with roles: {Roles}", loginDTO.Email, string.Join(", ", userRoles));
                         return RedirectToAction("Index", "Home", new { area = "Admin" });
                     }
                 }
@@ -137,13 +150,14 @@ namespace ContaxctsManager_UI.Controllers
             return View(loginDTO);
         }
 
+        [Authorize]
         public async Task<IActionResult> Logout()
         {
             await _signInManager.SignOutAsync();
             return RedirectToAction(nameof(PersonsController.Index), "Persons");
         }
 
-
+        [AllowAnonymous]
         public async Task<IActionResult> IsEmailAlreadyRegistered(string email)
         {
             ApplicationUser? applicationUser = await _userManager.FindByEmailAsync(email);

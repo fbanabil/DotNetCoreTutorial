@@ -37,6 +37,7 @@
                                         <i class="fa-solid fa-user"></i>
                                         @User.Identity?.Name
                                     </li>
+
                                     @if(User.IsInRole("Admin"))
                                     {
                                         <li>
@@ -44,7 +45,6 @@
                                         </li>
                                     }
                                     
-
                                     <li>
                                         <a asp-controller="Account" asp-action="Logout">Logout</a>
                                     </li>
